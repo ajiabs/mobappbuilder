@@ -1,0 +1,10 @@
+{
+    text_color : "#D006CD",
+    app_name   : "MY App",
+    app_sub_heading   : "Follow Your Favorites",
+    app_logo   : "logo.png" ,
+    background_color  : "#06D0CA",
+    menu_icon_color   : "#447CE9",
+    menu_text_color   :  "#890A5F"
+
+}
