@@ -1,9 +1,9 @@
 {
-    text_color : "#D006CD",
-    app_name   : "MY App",
+    text_color : "#777E05",
+    app_name   : "MY App tests n",
     app_sub_heading   : "Follow Your Favorites",
     app_logo   : "logo.png" ,
-    background_color  : "#06D0CA",
+    background_color  : "#F311F0",
     menu_icon_color   : "#447CE9",
     menu_text_color   :  "#890A5F"
 
