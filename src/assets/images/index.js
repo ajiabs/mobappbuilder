@@ -7,6 +7,13 @@ export const AssetsImages = {
     more:require('./more.png'),
     background:require('./background.png'),
     logo:require('./logo.png'),
+    about_logo:require('./about_logo.png'),
+    location:require('./location.png'),
+    email:require('./email.png'),
+    facebook:require('./facebook.png'),
+    google_plus:require('./google_plus.png'),
+    phone:require('./phone.png'),
+    twitter:require('./twitter.png'),
 
 } 
 

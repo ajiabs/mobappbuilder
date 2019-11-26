@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image ,Text,StyleSheet} from 'react-native';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createStackNavigator } from 'react-navigation-stack';
 import Home from '../screens/Home';
 import AboutUs from '../screens/About-us';
 import ContactUs from '../screens/Contact-us';
@@ -8,17 +9,47 @@ import Events from '../screens/Events';
 import Settings from '../screens/Settings';
 import More from '../screens/More';
 import { AssetsImages } from '../assets/images';
+import { BuildConfig } from '../config';
+import { Styles } from '../assets/css/styles';
 
+
+const MoreStack = createStackNavigator({
+  More: {
+    screen: More,
+  },
+  AboutUs: {
+    screen: AboutUs,
+  },
+  ContactUs: {
+    screen: ContactUs,
+  }
+},{ initialRouteName: 'More' , 
+headerMode: 'none',
+navigationOptions: {
+    headerVisible: false,
+}});
+const HomeStack = createStackNavigator({
+  Home: {
+    screen: Home,
+  },
+  Events: {
+    screen: Events,
+  }
+},{ initialRouteName: 'Home' , 
+headerMode: 'none',
+navigationOptions: {
+    headerVisible: false,
+}});
 export default  BottomTabNavigation  = createBottomTabNavigator(
     {
       Home: {
-        screen: Home,
+        screen: HomeStack,
       },
       Settings: {
         screen: Settings,
       },
       More: {
-        screen: More,
+        screen: MoreStack,
       }
     },
     {
@@ -29,7 +60,7 @@ export default  BottomTabNavigation  = createBottomTabNavigator(
           const { routeName } = navigation.state;
           let label;
 
-          return  <Text style={ focused ? styles.activeTabText : styles.inactiveTabText}>{routeName}</Text>;
+          return  <Text style={ focused ? [Styles.activeTabText] : Styles.inactiveTabText}>{routeName}</Text>;
 
         },
         tabBarIcon: ({ focused, horizontal, tintColor }) => {
@@ -53,7 +84,7 @@ export default  BottomTabNavigation  = createBottomTabNavigator(
         },
       }),
       tabBarOptions: {
-        activeTintColor: '#000',
+        activeTintColor:  BuildConfig.menu_icon_color,
         inactiveTintColor: 'gray',
       },
   
@@ -62,15 +93,3 @@ export default  BottomTabNavigation  = createBottomTabNavigator(
   );
 
 
-const styles = StyleSheet.create({
-  activeTabText: {
-    color:'#06D00F',
-    fontSize: 12,
-    textAlign: 'center'
-  },
-  inactiveTabText: {
-    color:'gray',
-    fontSize: 12,
-    textAlign: 'center'
-  }
-});
