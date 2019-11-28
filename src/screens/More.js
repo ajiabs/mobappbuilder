@@ -31,7 +31,9 @@ export default class More extends React.Component {
     return (
       
       <View style={[Styles.menu_bar,Styles.page_background_color]} >
+      <Text style={[Styles.back,Styles.page_text_color]} ></Text>
       <Text style={[Styles.inner_header,Styles.page_text_color]}>More</Text>
+      
         <FlatList
           style={[Styles.inner_header_container,{paddingTop:'25%'}]}
           data={DATA}

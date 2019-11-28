@@ -10,7 +10,7 @@ export default class Settings extends React.Component {
          <Text style={[Styles.back,Styles.page_text_color]} ></Text>
        <Text style={[Styles.inner_header,Styles.page_text_color]}>Settings</Text>
       <View style={[Styles.inner_header_container]}>
-         <Text style={[Styles.page_text_color,Styles.inner_content]}>Comming soon</Text>
+         <Text style={[Styles.page_text_color,Styles.inner_content]}>Coming soon</Text>
 
       </View>
       </View>

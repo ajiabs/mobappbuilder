@@ -82,6 +82,23 @@ export const Styles = StyleSheet.create({
     
     },
 
+
+
+    event_inner_header_container: {
+      position: "absolute",
+      backgroundColor: "#fff",
+    
+      width:"100%",
+      bottom: 0,
+      top: "10%",
+      borderTopRightRadius: 30,
+      borderTopLeftRadius: 30,
+      flex:1,
+      overflow:'hidden'
+    },
+
+    
+
     inner_content: {
       marginTop: '50%',
       textAlign: 'center'
@@ -121,7 +138,59 @@ export const Styles = StyleSheet.create({
       flexDirection:'row',
       alignItems:'center'
     },
+    event_card_row:{
+    minHeight: 60,
+    flexDirection:'row',
+    marginTop: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 1,
+    backgroundColor:'white',
+    padding:10,
+    backgroundColor:"#F4EDF4", 
+    },
+    event_card_line:{
+      backgroundColor:"#000", 
+      width:15,
+       marginVertical:0,
+       borderRadius:5, 
+    },
+    event_card_label:{
+      flex:1, padding: 10
+    },
+    event_heading:{
+      fontWeight: 'bold',
+      color: '#000',
+      fontSize:20,
+      
+    },
+    event_detail_heading:{
+      fontWeight: 'bold',
+      color: '#000',
+      fontSize:30,
+    },
+    event_detail_description:{
+   paddingBottom:20
+    },
+    event_description:{
+     
+    },
+    event_row:{
+      flexDirection:'row',
+    },
+    event_row_image:{
+      marginTop:18,
+      width:20,
+      height:20
+    },
+    event_row_text:{
+      paddingTop:14,
+      paddingLeft:15,
+      paddingRight:15
 
+    },
     contact_us_row_image:{
       marginTop:25,
       marginLeft:20,
@@ -143,6 +212,12 @@ export const Styles = StyleSheet.create({
     },
     contact_us_text_first:{
       paddingTop:40,
+    
+    },
+    contact_us_connect:{
+      paddingTop:50,
+      paddingLeft:15,
+      fontSize:20
     
     }
 

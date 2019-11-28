@@ -14,6 +14,7 @@ export const AssetsImages = {
     google_plus:require('./google_plus.png'),
     phone:require('./phone.png'),
     twitter:require('./twitter.png'),
+    time:require('./time.png'),
 
 } 
 

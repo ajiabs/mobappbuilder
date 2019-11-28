@@ -6,6 +6,7 @@ import Home from '../screens/Home';
 import AboutUs from '../screens/About-us';
 import ContactUs from '../screens/Contact-us';
 import Events from '../screens/Events';
+import EventDetails from '../screens/Event-details';
 import Settings from '../screens/Settings';
 import More from '../screens/More';
 import { AssetsImages } from '../assets/images';
@@ -34,6 +35,9 @@ const HomeStack = createStackNavigator({
   },
   Events: {
     screen: Events,
+  },
+  EventDetails: {
+    screen: EventDetails,
   }
 },{ initialRouteName: 'Home' , 
 headerMode: 'none',
