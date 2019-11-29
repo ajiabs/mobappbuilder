@@ -169,7 +169,7 @@ export const Styles = StyleSheet.create({
     event_detail_heading:{
       fontWeight: 'bold',
       color: '#000',
-      fontSize:30,
+      fontSize:23,
     },
     event_detail_description:{
    paddingBottom:20
