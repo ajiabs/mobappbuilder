@@ -8,37 +8,37 @@ let { width } = Dimensions.get('window');
 var Data = [
   {
     start_date: '2019-11-13',
-    time: '07:00-11:00',
-    title: 'New Year Party',
-    location:'Cochin',
-    summary: 'Near stadium',
+    time: '01:00-09:00',
+    title: 'AMERICAN FILM AWARDS® 2019 ',
+    location:'Regal LA Live & 4DX ,1000 West Olympic Boulevard Los Angeles,',
+    summary: 'PLAY FESTIVAL (12pm to 3pm) - Showcasing new Recording Artists, Producers, Beatmakers, Models, Fashion Designers, Comedians, Scripwriters, Influencers, Gamers, and Content Creators - meeting with Brands, Buyers and Investors + Entertainment Panels and Networking.Red Carpet Arrivals for Gala (5pm -7pm)',
   },{
     start_date: '2019-11-29',
     time: '07:00-11:00',
-    title: 'New Year Wishes',
-    location:'Cochin',
-    summary: 'Call to every one',
+    title: '2019 Music & Art Exhibit by Woven Colors',
+    location:'Hot and Cool Cafe 4331 Degnan Boulevard Los Angeles',
+    summary: 'We are here for the community of creators of all kind! Come support local artist in the music industry and visual arts. This event will bring together professionals in the arts & entertainment industry among others to enjoy music and art in one place.Look forward to a evening filled with performances, spoken word, art gallery, music listening, and networking.Art work will available for purchase.',
   },
   {
     start_date: '2019-11-03',
     time: '07:00-11:00',
-    title: 'Parag Birthday Party',
-    location:'Cochin',
-    summary: 'Call him',
+    title: 'Emerging Tech - Digital Humans & Virtual Production',
+    location:'The Scan Truck - Mobile 3D Scanning Los Angeles 11160 Hindry Avenue Los Angeles',
+    summary: 'The ways in which we create content are changing rapidly, and the line between digital and real becoming blurred. New tools have emerged in the entertainment industry and beyond to represent characters digitally and create content with them through virtual production - increasing efficiency and reducing costs.',
   },
   {
     start_date: '2019-11-29',
     time: '08:00-12:00',
-    title: 'My Birthday Party',
-    location:'Cochin',
-    summary: 'Lets Enjoy',
+    title: 'Content Protection Summit 2019',
+    location:'Sheraton Universal Hotel 333 Universal Hollywood Dr.Universal City,',
+    summary: 'Industry leaders from the Hollywood studios, television networks and content production community are again scheduled to meet at the 10th Annual CDSA Content Protection Summit on Wednesday, December 4, 2019 at the Sheraton Universal. The full-day conference program will address the dynamic challenges throughout the entertainment supply chain in managing risk, thwarting attacks and educating their teams while protecting their business practices and customers’ privacy.',
   },
   {
     start_date: '2019-11-29',
     time: '01:00-10:00',
-    title: 'Engg Expo 2019',
-    location:'Cochin',
-    summary: 'Expoo Vanue not confirm',
+    title: 'The Sound Bar experience ',
+    location:'7080 Hollywood Blvd 7080 Hollywood Boulevard Los Angeles',
+    summary: 'MIXER - Exclusive to influencers/brand ambassadors & Sponsors,Artists • Podcasters • DJs • Influencers • Hype beast • Models • etc,Apparel • Restaurants • Tech • Cannabis • Music • All industries Current influencer follower count: 3 Million (Updated every week) Current Sponsor budget: 25 influencers (Updated every week)',
   },
 ];
 
@@ -77,7 +77,7 @@ export default class Events extends React.Component {
     super(props);
     this.state = { 
       DataItem: Data,
-      selected_date:'2019-11-29'
+      selected_date:{year:2019,month:11,day:29}
     }; 
     
   
@@ -85,7 +85,6 @@ export default class Events extends React.Component {
 
   
  getEvents(date){
-  
     var res = fetchEvents(date);
     this.setState({ 
       DataItem:  res.result,
@@ -96,8 +95,7 @@ export default class Events extends React.Component {
   }
 
   componentDidMount() {
-
-     
+    
     var res = fetchEvents(this.state.selected_date);
     this.setState({ 
       DataItem:  res.result,

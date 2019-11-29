@@ -60,11 +60,16 @@ export default  BottomTabNavigation  = createBottomTabNavigator(
       initialRouteName: 'Home',
       defaultNavigationOptions: ({ navigation }) => ({
 
+ 
+
         tabBarLabel: ({ focused,horizontal, tintColor }) => {
           const { routeName } = navigation.state;
           let label;
-
+    
           return  <Text style={ focused ? [Styles.activeTabText] : Styles.inactiveTabText}>{routeName}</Text>;
+
+
+       
 
         },
         tabBarIcon: ({ focused, horizontal, tintColor }) => {
