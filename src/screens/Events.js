@@ -7,34 +7,34 @@ import {Calendar} from 'react-native-calendars';
 let { width } = Dimensions.get('window');
 var Data = [
   {
-    start_date: '2019-11-13',
+    start_date: '2019-12-02',
     time: '01:00-09:00',
     title: 'AMERICAN FILM AWARDS® 2019 ',
     location:'Regal LA Live & 4DX ,1000 West Olympic Boulevard Los Angeles,',
     summary: 'PLAY FESTIVAL (12pm to 3pm) - Showcasing new Recording Artists, Producers, Beatmakers, Models, Fashion Designers, Comedians, Scripwriters, Influencers, Gamers, and Content Creators - meeting with Brands, Buyers and Investors + Entertainment Panels and Networking.Red Carpet Arrivals for Gala (5pm -7pm)',
   },{
-    start_date: '2019-11-29',
+    start_date: '2019-12-03',
     time: '07:00-11:00',
     title: '2019 Music & Art Exhibit by Woven Colors',
     location:'Hot and Cool Cafe 4331 Degnan Boulevard Los Angeles',
     summary: 'We are here for the community of creators of all kind! Come support local artist in the music industry and visual arts. This event will bring together professionals in the arts & entertainment industry among others to enjoy music and art in one place.Look forward to a evening filled with performances, spoken word, art gallery, music listening, and networking.Art work will available for purchase.',
   },
   {
-    start_date: '2019-11-03',
+    start_date: '2019-12-02',
     time: '07:00-11:00',
     title: 'Emerging Tech - Digital Humans & Virtual Production',
     location:'The Scan Truck - Mobile 3D Scanning Los Angeles 11160 Hindry Avenue Los Angeles',
     summary: 'The ways in which we create content are changing rapidly, and the line between digital and real becoming blurred. New tools have emerged in the entertainment industry and beyond to represent characters digitally and create content with them through virtual production - increasing efficiency and reducing costs.',
   },
   {
-    start_date: '2019-11-29',
+    start_date: '2019-12-03',
     time: '08:00-12:00',
     title: 'Content Protection Summit 2019',
     location:'Sheraton Universal Hotel 333 Universal Hollywood Dr.Universal City,',
     summary: 'Industry leaders from the Hollywood studios, television networks and content production community are again scheduled to meet at the 10th Annual CDSA Content Protection Summit on Wednesday, December 4, 2019 at the Sheraton Universal. The full-day conference program will address the dynamic challenges throughout the entertainment supply chain in managing risk, thwarting attacks and educating their teams while protecting their business practices and customers’ privacy.',
   },
   {
-    start_date: '2019-11-29',
+    start_date: '2019-12-03',
     time: '01:00-10:00',
     title: 'The Sound Bar experience ',
     location:'7080 Hollywood Blvd 7080 Hollywood Boulevard Los Angeles',
@@ -77,7 +77,7 @@ export default class Events extends React.Component {
     super(props);
     this.state = { 
       DataItem: Data,
-      selected_date:{year:2019,month:11,day:29}
+      selected_date:{year:2019,month:12,day:02}
     }; 
     
   
@@ -132,7 +132,7 @@ export default class Events extends React.Component {
             }}
                     
           // Initially visible month. Default = Date()
-          current={'2019-11-27'}
+          current={'2019-12-02'}
           // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
           minDate={'2019-01-01'}
           // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
