@@ -164,18 +164,20 @@ export const Styles = StyleSheet.create({
       fontWeight: 'bold',
       color: '#000',
       fontSize:20,
+      paddingBottom:15
       
     },
     event_detail_heading:{
       fontWeight: 'bold',
       color: '#000',
       fontSize:23,
+      paddingBottom:20
     },
     event_detail_description:{
-   paddingBottom:20
+     paddingBottom:20
     },
-    event_description:{
-     
+    event_time:{
+      paddingTop:10
     },
     event_row:{
       flexDirection:'row',

@@ -54,8 +54,8 @@ function Item({ item ,navigation}) {
         <Text style={[Styles.event_description,Styles.page_text_color]}>
         {item.summary}
         </Text>
-        <Text style={[Styles.event_description,Styles.page_text_color]}>
-         {item.time}
+        <Text style={[Styles.event_time,Styles.page_text_color]}>
+         Time: {item.time}
         </Text>
         </View>
      </TouchableOpacity>
