@@ -77,7 +77,7 @@ export default class Events extends React.Component {
     super(props);
     this.state = { 
       DataItem: Data,
-      selected_date:{year:2019,month:12,day:02}
+      selected_date:{year:2019,month:12,day:3}
     }; 
     
   
@@ -125,9 +125,9 @@ export default class Events extends React.Component {
       
             }}
           markedDates={{
-              '2019-11-13': {selected: true},
-              '2019-11-29': {selected: true},
-              '2019-11-03': {selected: true},
+              '2019-12-02': {selected: true},
+              '2019-12-03': {selected: true},
+            
            
             }}
                     
