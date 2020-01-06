@@ -2,10 +2,10 @@ import { StyleSheet } from 'react-native';
 import { BuildConfig } from '../../config';
 export const Styles = StyleSheet.create({
     page_background_color:{
-      backgroundColor:BuildConfig.background_color,
+      backgroundColor:'#132051',
     },
     page_text_color:{
-      color: BuildConfig.text_color,
+      color: '#000',
     },
     container: {
       flex: 1,
@@ -23,11 +23,18 @@ export const Styles = StyleSheet.create({
       fontSize:30,
       color:'#FFFF',
     },
+    main_heading :{
+      color:'#FFFF',
+      fontSize:44,
+      position: 'absolute',
+      bottom:300,
+    },
+  
     heading :{
       color:'#FFFF',
       fontSize:15,
       position: 'absolute',
-      bottom:90,
+      bottom:280,
     },
   
     get_started:{
@@ -50,6 +57,7 @@ export const Styles = StyleSheet.create({
       position: 'absolute',
       bottom:10,
       left:18,
+      color:'#FFFF'
      
     },
     activeTabText: {
@@ -79,6 +87,7 @@ export const Styles = StyleSheet.create({
       paddingBottom: 2,
       paddingLeft: 17,
       fontSize: 28,
+      color:"#FFFF"
     
     },
 

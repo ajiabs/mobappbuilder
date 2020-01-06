@@ -31,7 +31,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { MenuNavigation } from './src/navigation';
 const AppNavigator = MenuNavigation.bottomNavigation;
 const AppContainer = createAppContainer(AppNavigator);
-console.disableYellowBox = true;
+//console.disableYellowBox = true;
 export default class App extends React.Component {
   render() {
     return <AppContainer  />;

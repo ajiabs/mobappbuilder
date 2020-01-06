@@ -16,7 +16,7 @@ export default class EventDetails extends React.Component {
     return (
       <View style={[Styles.menu_bar,Styles.page_background_color]}>
         <Text style={[Styles.back,Styles.page_text_color]}  onPress={() => this.props.navigation.navigate('Events')}>Back</Text>
-         <Text style={[Styles.inner_header,Styles.page_text_color]}>Events</Text>
+         <Text style={[Styles.inner_header]}>Events</Text>
       
          <View style={[Styles.inner_header_container]}>
          <ScrollView style={[Styles.scrollview]} showsVerticalScrollIndicator={false}>

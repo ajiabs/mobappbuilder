@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text,ScrollView,Image } from 'react-native';
+import { View, Text,ScrollView,Image,ActivityIndicator } from 'react-native';
 import { Styles } from '../assets/css/styles';
 import { AssetsImages } from '../assets/images';
 import { BuildConfig } from '../config';
@@ -10,9 +10,56 @@ export default class AboutUs extends React.Component {
   };
   constructor(props) {
     super(props);
+    this.state ={ isLoading: true}
   }
 
+  
+
+
+   componentDidMount(){
+      
+    var data = {
+      token_id: 3,
+      slug: 'about_us'
+    };
+    return fetch('https://mobapp.iscriptsdemo.com/api/pages/getPageContent',
+    {
+    method: "POST",
+    headers: {
+    "Accept": "application/json",
+    "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+
+        this.setState({
+          isLoading: false,
+          dataSource: responseJson.page_description,
+        }, function(){
+
+        });
+
+      })
+      .catch((error) =>{
+        console.error(error);
+      });
+  }
+
+
+
   render() {
+
+    if(this.state.isLoading){
+      return(
+        <View style={{flex: 1, padding: '50%'}}>
+          <ActivityIndicator/>
+        </View>
+      )
+    }
+
+
     
     return (
       <View style={[Styles.menu_bar,Styles.page_background_color]}>
@@ -23,23 +70,9 @@ export default class AboutUs extends React.Component {
       <ScrollView style={[Styles.scrollview]} showsVerticalScrollIndicator={false}>
       <Image  source={AssetsImages.about_logo}  style={[Styles.about_logo]}>
       </Image>
-       <Text style={[Styles.page_text_color]}>We are happy to provide a free app maker 
-       platform since 2019, for people who need a cost-free app creation for their 
-       app building purposes. Anyone can create an android app for free and publish
-        on Google Play Store with our free app maker. We also allow you to generate an 
-        APK file for free. This way you can share your Android app with your friends or 
-        co-workers. Our platform enables anyone to publish their app on Google Play
-         (own developer account) without paying us a single dime! There is also no time
-          limitation for your Android app. As long as you are not using your app for 
-          commercial reasons, it's all free.We are happy to provide a free app maker
-           platform since 2019, for people who need a cost-free app creation for their 
-           app building purposes. Anyone can create an android app for free and publish 
-           on Google Play Store with our free app maker. We also allow you to generate an
-            APK file for free. This way you can share your Android app with your friends or
-             co-workers. Our platform enables anyone to publish their app on Google Play
-              (own developer account) without paying us a single dime! There is also no 
-              time limitation for your Android app. As long as you are not 
-           using your app for commercial reasons, it's all free.</Text>
+       <Text style={[Styles.page_text_color]}>
+         {this.state.dataSource}
+       </Text>
 
       </ScrollView>
 

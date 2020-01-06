@@ -1,10 +1,12 @@
 {
-    text_color : "#451251",
-    app_name   : "MY App tests n",
-    app_overview   : "Follow Your Favorites",
+    text_color : "#000",
+    app_name   : "KK APP",
+    app_overview   : "Team Event Management",
     app_logo   : "logo.png" ,
-    background_color  : "#1F3CD0",
+    background_color  : "#132051",
     menu_icon_color   : "#F311F0",
-    menu_text_color   :  "#447CE9"
+    menu_text_color   :  "#447CE9",
+    token_id:"68"
+    
 
 }
