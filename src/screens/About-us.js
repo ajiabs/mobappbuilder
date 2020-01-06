@@ -19,7 +19,7 @@ export default class AboutUs extends React.Component {
    componentDidMount(){
       
     var data = {
-      token_id: 3,
+      token_id: BuildConfig.token_id,
       slug: 'about_us'
     };
     return fetch('https://mobapp.iscriptsdemo.com/api/pages/getPageContent',
