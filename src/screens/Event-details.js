@@ -8,6 +8,10 @@ let { width } = Dimensions.get('window');
 export default class EventDetails extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { 
+      paypal_client_id: '',
+      
+    }; 
   
   }
   simpleAlertHandlerSuccess=()=>{
@@ -43,7 +47,7 @@ export default class EventDetails extends React.Component {
   paypalCall = () => {
     //alert("Here");
     RNPaypal.paymentRequest({
-      clientId: 'AVXDyBglm3jiy6S9y-zUFAdJpk_NAesoyEHSLTp1B3OQtBb6yZm3ZhyH9tL-4WM8SfbiPhJ9nWKvdGVc',
+      clientId: this.state.paypal_client_id,
       environment: RNPaypal.ENVIRONMENT.SANDBOX,
       intent: RNPaypal.INTENT.SALE,
       price: 60,
@@ -61,6 +65,52 @@ export default class EventDetails extends React.Component {
   }).catch(err => {
       console.log(err.message)
   })
+  }
+
+  componentDidMount() {
+console.log("componentDidMount");
+    var data = {
+      token_id: BuildConfig.token_id,
+    };
+    console.log(JSON.stringify(data));
+    return fetch('https://mobapp.iscriptsdemo.com/api/events/getPayPalId',
+    {
+    method: "POST",
+    headers: {
+    "Accept": "application/json",
+    "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+      if(responseJson['paypal_client_id']!=undefined){
+      console.log(responseJson['paypal_client_id']);
+      this.setState({ 
+        paypal_client_id:  responseJson['paypal_client_id'],
+      }); 
+      }else{
+        this.setState({ 
+          paypal_client_id:  '',
+        }); 
+      }
+
+      })
+      .catch((error) =>{
+        console.error(error);
+      });
+
+  }
+
+ LoadingPayPalButton() {
+   if(this.state.paypal_client_id){
+    return (
+      <Button
+            title="Fund This Event"
+            onPress={() => this.paypalCall()}
+          />
+    );
+  }
   }
 
   render() {
@@ -82,16 +132,17 @@ export default class EventDetails extends React.Component {
               <Image  source={AssetsImages.location}  style={[Styles.event_row_image]}/>
               <Text style={[Styles.event_row_text,Styles.page_text_color]}>{navigation.getParam('location')}</Text>
             </View>
+            
             <View style={[Styles.event_row]}>
               <Image  source={AssetsImages.time}  style={[Styles.event_row_image]}/>
               <Text style={[Styles.event_row_text,Styles.page_text_color]}>{navigation.getParam('time')}</Text>
             </View>
 
 
-            <Button
-            title="Fund This Event"
-            onPress={() => this.paypalCall()}
-          />
+
+
+          
+            {this.LoadingPayPalButton()}
          
 
 
