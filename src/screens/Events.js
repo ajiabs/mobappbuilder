@@ -30,8 +30,7 @@ function Item({ item ,navigation}) {
 
 function fetchEvents(date,d){
   var searched_date = date.year+'-'+date.month+'-'+ ("0" + date.day).slice(-2); 
-  console.log(searched_date,"searched_date");
-  console.log(d,"d");
+ 
   
   var res = d.filter((item)=>{
     return Object.keys(item).some((key)=>item[key].includes(searched_date));
@@ -81,7 +80,7 @@ export default class Events extends React.Component {
     var data = {
       token_id: BuildConfig.token_id,
     };
-    return fetch('https://mobapp.iscriptsdemo.com/api/events/getEvents',
+    return fetch('http://mobapp.iscriptsdemo.com/api/events/getEvents',
     {
     method: "POST",
     headers: {
@@ -93,7 +92,7 @@ export default class Events extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
 
-       
+       console.log(responseJson);
         
 
         var resData = [];
@@ -104,7 +103,7 @@ export default class Events extends React.Component {
         for (let eventObject of responseJson) {
           
  
-          
+          //console.log(eventObject['events_id']);
 
 
           var mydate = (eventObject['event_start_date']);
@@ -123,11 +122,14 @@ export default class Events extends React.Component {
           setDate[newDate] = {selected: true};
 
           var obj = {
+            
             start_date: newDate1,
             time: eventObject['event_start_time'],
             title: eventObject['event_title'],
             location:eventObject['location'],
             summary: eventObject['event_summary'],
+            events_id: eventObject['events_id'].toString()
+            
           }
           
 
@@ -137,7 +139,7 @@ export default class Events extends React.Component {
 
       }
 
-     
+     console.log(resData,"resData");
 
       this.setState({
          resEvent:{value:resData},

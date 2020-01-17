@@ -69,11 +69,12 @@ export default class EventDetails extends React.Component {
 
   componentDidMount() {
 console.log("componentDidMount");
+console.log(this.props);
     var data = {
       token_id: BuildConfig.token_id,
     };
     console.log(JSON.stringify(data));
-    return fetch('https://mobapp.iscriptsdemo.com/api/events/getPayPalId',
+    return fetch('http://mobapp.iscriptsdemo.com/api/events/getPayPalId',
     {
     method: "POST",
     headers: {
@@ -107,10 +108,23 @@ console.log("componentDidMount");
     return (
       <Button
             title="Fund This Event"
-            onPress={() => this.paypalCall()}
+            onPress={() => this.PayPalPayamentPage()}
           />
     );
   }
+  }
+
+
+  PayPalPayamentPage(){
+    //alert("Donate Page");
+    const { navigation } = this.props;
+
+    var item = {
+      events_id:navigation.getParam('events_id'),
+      title:navigation.getParam('title')
+    }
+
+    navigation.navigate('EventPayment',item)
   }
 
   render() {
@@ -133,14 +147,11 @@ console.log("componentDidMount");
               <Text style={[Styles.event_row_text,Styles.page_text_color]}>{navigation.getParam('location')}</Text>
             </View>
             
-            <View style={[Styles.event_row]}>
-              <Image  source={AssetsImages.time}  style={[Styles.event_row_image]}/>
-              <Text style={[Styles.event_row_text,Styles.page_text_color]}>{navigation.getParam('time')}</Text>
-            </View>
+           
 
 
 
-
+            <Text> {'\n'}</Text>
           
             {this.LoadingPayPalButton()}
          

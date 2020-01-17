@@ -90,7 +90,18 @@ export const Styles = StyleSheet.create({
       color:"#FFFF"
     
     },
-
+    inputContainer: {
+      paddingTop: 15
+    },
+    textInput: {
+      borderColor: '#CCCCCC',
+      borderTopWidth: 1,
+      borderBottomWidth: 1,
+      height: 50,
+      fontSize: 20,
+      paddingLeft: 20,
+      paddingRight: 20
+    },
 
 
     event_inner_header_container: {
