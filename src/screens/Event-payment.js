@@ -61,7 +61,7 @@ export default class EventPayment extends React.Component {
       events_id:navigation.getParam('events_id')
     };
 
-    return fetch('http://mobapp.iscriptsdemo.com/api/events/insertPayments',
+    return fetch('https://mobapp.iscriptsdemo.com/api/events/insertPayments',
     {
     method: "POST",
     headers: {
@@ -118,7 +118,7 @@ console.log(this.props);
       token_id: BuildConfig.token_id,
     };
     console.log(JSON.stringify(data));
-    return fetch('http://mobapp.iscriptsdemo.com/api/events/getPayPalId',
+    return fetch('https://mobapp.iscriptsdemo.com/api/events/getPayPalId',
     {
     method: "POST",
     headers: {

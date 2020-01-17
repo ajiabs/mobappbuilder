@@ -80,7 +80,7 @@ export default class Events extends React.Component {
     var data = {
       token_id: BuildConfig.token_id,
     };
-    return fetch('http://mobapp.iscriptsdemo.com/api/events/getEvents',
+    return fetch('https://mobapp.iscriptsdemo.com/api/events/getEvents',
     {
     method: "POST",
     headers: {

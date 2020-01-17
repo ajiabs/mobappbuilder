@@ -74,7 +74,7 @@ console.log(this.props);
       token_id: BuildConfig.token_id,
     };
     console.log(JSON.stringify(data));
-    return fetch('http://mobapp.iscriptsdemo.com/api/events/getPayPalId',
+    return fetch('https://mobapp.iscriptsdemo.com/api/events/getPayPalId',
     {
     method: "POST",
     headers: {
