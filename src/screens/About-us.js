@@ -60,6 +60,8 @@ export default class AboutUs extends React.Component {
     }
 
 
+
+    
     
     return (
       <View style={[Styles.menu_bar,Styles.page_background_color]}>
