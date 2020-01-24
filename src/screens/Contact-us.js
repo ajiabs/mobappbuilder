@@ -59,9 +59,9 @@ export default class ContactUs extends React.Component {
 
     return (
       <View style={[Styles.menu_bar,Styles.page_background_color]}>
-        <Text style={[Styles.back,Styles.page_text_color]}  onPress={() => this.props.navigation.navigate('More')}>Back</Text>
+        <Text style={[Styles.back]}  onPress={() => this.props.navigation.navigate('More')}>Back</Text>
 
-       <Text style={[Styles.inner_header,Styles.page_text_color]}>Contact Us</Text>
+       <Text style={[Styles.inner_header]}>Contact Us</Text>
         <View style={[Styles.inner_header_container]}>
         <View style={[Styles.contact_us_row]}>
           <Image  source={AssetsImages.location}  style={[Styles.contact_us_row_image]}/>

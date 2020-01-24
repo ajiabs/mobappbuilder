@@ -63,8 +63,8 @@ export default class AboutUs extends React.Component {
     
     return (
       <View style={[Styles.menu_bar,Styles.page_background_color]}>
-       <Text style={[Styles.back,Styles.page_text_color]}  onPress={() => this.props.navigation.navigate('More')}>Back</Text>
-       <Text style={[Styles.inner_header,Styles.page_text_color]}>About Us</Text>
+       <Text style={[Styles.back]}  onPress={() => this.props.navigation.navigate('More')}>Back</Text>
+       <Text style={[Styles.inner_header]}>About Us</Text>
       
       <View style={[Styles.inner_header_container]}>
       <ScrollView style={[Styles.scrollview]} showsVerticalScrollIndicator={false}>
