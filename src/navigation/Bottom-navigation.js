@@ -53,9 +53,6 @@ export default  BottomTabNavigation  = createBottomTabNavigator(
       Home: {
         screen: HomeStack,
       },
-      Settings: {
-        screen: Settings,
-      },
       More: {
         screen: MoreStack,
       }
