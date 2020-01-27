@@ -7,6 +7,7 @@ import AboutUs from '../screens/About-us';
 import ContactUs from '../screens/Contact-us';
 import Events from '../screens/Events';
 import EventDetails from '../screens/Event-details';
+import EventPayment from '../screens/Event-payment';
 import Settings from '../screens/Settings';
 import More from '../screens/More';
 import { AssetsImages } from '../assets/images';
@@ -38,7 +39,10 @@ const HomeStack = createStackNavigator({
   },
   EventDetails: {
     screen: EventDetails,
-  }
+  },
+  EventPayment: {
+    screen: EventPayment,
+  },
 },{ initialRouteName: 'Home' , 
 headerMode: 'none',
 navigationOptions: {
@@ -48,6 +52,9 @@ export default  BottomTabNavigation  = createBottomTabNavigator(
     {
       Home: {
         screen: HomeStack,
+      },
+      Settings: {
+        screen: Settings,
       },
       More: {
         screen: MoreStack,
