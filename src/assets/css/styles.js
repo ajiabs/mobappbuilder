@@ -150,7 +150,8 @@ export const Styles = StyleSheet.create({
       textAlign: 'right',
       marginRight:'5%',
       marginTop:'2%',
-      padding:10
+      padding:10,
+      color:'#ffffff'
       //height:35,
       //width:35
     },
