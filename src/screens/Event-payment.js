@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text ,Dimensions,ScrollView,Image,TouchableOpacity,Button,Alert,TextInput,Keyboard} from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
-import ValidationComponent from 'react-native-form-validator';
 import { Styles } from '../assets/css/styles';
 import { AssetsImages } from '../assets/images';
 import { BuildConfig } from '../config';
