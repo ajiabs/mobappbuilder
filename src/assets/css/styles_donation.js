@@ -253,7 +253,7 @@ export default StyleSheet.create({
   dollarTextNew: {
     color: BuildConfig.text_color,
     fontFamily: Font.Regular,
-    fontSize: FontSize.VeryLarge
+     fontSize: FontSize.VeryLarge
   },
   payNowTextTouchableOpacity: {
     marginTop: 70,
@@ -261,19 +261,14 @@ export default StyleSheet.create({
     marginRight: 20,
     height: 50,
     backgroundColor: BuildConfig.background_color,
-    // alignSelf: "center",
     width: "90%",
     textAlign: "center",
     justifyContent: "center",
-    // fontSize: 25,
     fontFamily: Font.Regular,
     fontSize: FontSize.Large,
-    // fontFamily: Font.Medium,
     color: "#ffffff",
-    //  marginLeft: 30
-    alignSelf: "center"
-    // backgroundColor: 'red',
-    //  borderColor: "#3266B9",
+    alignSelf: "center",
+    borderRadius: 50,
   },
   payNowText: {
     width: "90%",
@@ -445,5 +440,12 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center"
+  },
+  arrowButtonContainer: {
+    width: 40,
+    backgroundColor: "#3266B9",
+    height: '100%',
+    justifyContent: 'center', 
+    alignItems: 'center',
   }
 });

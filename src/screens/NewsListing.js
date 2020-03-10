@@ -17,6 +17,8 @@ import styles from "../assets/css/styles_news_feed";
 // import {Font, FontSize} from '../utils';
 
 import { BuildConfig } from "../config";
+import { APIEndpoints } from "../config/ApiEndpoints";
+import { BASE_URL } from "../config/ApiDomain";
 // import Snackbar from 'react-native-snackbar';
 // import ContentLoader, {Rect, Circle} from 'react-content-loader/native';
 
@@ -59,7 +61,7 @@ export class NewsListing extends Component<Props, State> {
     var data = {
       token_id: BuildConfig.token_id
     };
-    return fetch("https://mobapp.iscriptsdemo.com/api/events/getNews", {
+    return fetch(APIEndpoints.GET_NEWS, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -121,7 +123,7 @@ export class NewsListing extends Component<Props, State> {
               // (
 
               <FlatList
-                contentContainerStyle={{ paddingBottom: 500 }}
+                contentContainerStyle={{ paddingBottom: 200 }}
                 data={this.state.newsArray}
                 // onRefresh={() => this.onRefresh()}
                 // refreshing={this.state.isRefreshing}
@@ -156,17 +158,18 @@ export class NewsListing extends Component<Props, State> {
 
   renderNotificationList = item => (
     <View style={styles.card}>
-      {/* {console.warn("item---", item.data)} */}
+      {/* {console.warn("itemmmmmmmmmm---", item.file_path)} */}
       <Image
         style={styles.cardImage}
         // source={AssetsImages.header}
+
         source={{
-          uri: "https://mobapp.iscriptsdemo.com/" + item.file_path
+          uri: BASE_URL + item.file_path
         }}
         // resizeMode="stretch"
       />
-      <View 
-       style={styles.cardContent}
+      <View
+        style={styles.cardContent}
         // style={
         //   item.data === "two" || item.data === "four"
         //     ? (style = styles.cardContentGreen)
@@ -174,8 +177,12 @@ export class NewsListing extends Component<Props, State> {
         // }
       >
         <Text style={styles.date}>{item.date}</Text>
-        <Text  numberOfLines={2}style={styles.title1}>{item.news_title}</Text>
-        <Text numberOfLines={2} style={styles.title2}>{item.news_summary}</Text>
+        <Text numberOfLines={2} style={styles.title1}>
+          {item.news_title}
+        </Text>
+        <Text numberOfLines={2} style={styles.title2}>
+          {item.news_summary}
+        </Text>
       </View>
     </View>
   );

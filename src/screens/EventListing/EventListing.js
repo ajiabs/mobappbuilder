@@ -12,6 +12,8 @@ import {
 import { AssetsImages } from "../../assets/images";
 import { BuildConfig } from "../../config";
 import styles from "./styles";
+import { APIEndpoints } from "../../config/ApiEndpoints";
+import { BASE_URL } from "../../config/ApiDomain";
 const dummy = [{ data: "one" }, { data: "two" }, { data: "three" }];
 var Data = [];
 export default class EventListing extends React.Component {
@@ -29,7 +31,7 @@ export default class EventListing extends React.Component {
     var data = {
       token_id: BuildConfig.token_id
     };
-    return fetch("https://mobapp.iscriptsdemo.com/api/events/getEvents", {
+    return fetch(APIEndpoints.EVENTS, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -39,16 +41,10 @@ export default class EventListing extends React.Component {
     })
       .then(response => response.json())
       .then(responseJson => {
-        console.log("responseJson", responseJson);
-
-        var resData = [];
-        var setDate = {};
-        var newsetDate = {};
         if (responseJson.data != undefined) {
           this.setState({
             DataItem: responseJson.data
           });
-          console.log(resData, "resData");
         }
       })
       .catch(error => {
@@ -66,18 +62,6 @@ export default class EventListing extends React.Component {
         <View style={styles.headerView}>
           <Text style={styles.title}>Events</Text>
         </View>
-        {/* {this.state.DataItem.length > 0 ? (
-          <FlatList
-            data={this.state.DataItem}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item, index }) => this.renderEventList(item, index)}
-            keyExtractor={item => item.id}
-          />
-        ) : (
-          <Text style={{ textAlign: "center", marginVertical: "25%" }}>
-            No events yet to show
-          </Text>
-        )} */}
         <FlatList
             data={this.state.DataItem}
             showsHorizontalScrollIndicator={false}
@@ -97,7 +81,7 @@ export default class EventListing extends React.Component {
         <View style={styles.imageContainerStyle}>
           <Image
             source={{
-              uri: "https://mobapp.iscriptsdemo.com/" + item.file_path
+              uri: BASE_URL + item.file_path
             }}
             style={styles.imageStyle}
           ></Image>
@@ -115,12 +99,13 @@ export default class EventListing extends React.Component {
             </Text>
           </View>
         </View>
-        <TouchableOpacity
+       { BuildConfig.paypal_client_id != undefined && BuildConfig.paypal_client_id.trim() != ''? <TouchableOpacity
           style={styles.donateContainer}
           onPress={() => this.props.navigation.navigate("Donation", item)}
         >
           <Text style={styles.donateText}>Donate</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>: null 
+        }
       </View>
     </View>
   );

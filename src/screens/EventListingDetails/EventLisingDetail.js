@@ -1,28 +1,19 @@
 import React from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  Image,
-  ScrollView,
-  ImageBackground,
-  TouchableOpacity
-} from "react-native";
+import { Image, ImageBackground, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { AssetsImages } from "../../assets/images";
 import { BuildConfig } from "../../config";
+import { BASE_URL } from "../../config/ApiDomain";
 import styles from "./styles";
-import SvgImage from "../../assets/svgIcons";
-const dummy = [{ data: "one" }, { data: "two" }, { data: "three" }];
 export default class EventListingDetail extends React.Component {
   constructor(props) {
     super(props);
   }
-  componentWillMount() {
-    const { navigation } = this.props;
-  }
 
-  LoadingPayPalButton() {
-    this.props.navigation.navigate("Donation");
+  LoadingPayPalButton = () => {
+    const { navigation } = this.props;
+    navigation.navigate("Donation", {
+      events_id: navigation.getParam("events_id"),
+    });
   }
 
   render() {
@@ -32,7 +23,7 @@ export default class EventListingDetail extends React.Component {
         <View style={styles.headerImgContainer}>
           <ImageBackground
            source={{
-            uri: "https://mobapp.iscriptsdemo.com/" + navigation.getParam("file_path")
+            uri: BASE_URL + navigation.getParam("file_path")
           }}
             style={styles.backGroundimg}
         //  resizeMode="stretch"
@@ -79,12 +70,14 @@ export default class EventListingDetail extends React.Component {
   }
   renderDonateButton() {
     return (
-      <TouchableOpacity
+      BuildConfig.paypal_client_id != undefined && BuildConfig.paypal_client_id.trim() != ''? <TouchableOpacity
         onPress={() => this.LoadingPayPalButton()}
         style={styles.buttonContainer}
       >
         <Text style={styles.donateText}>DONATE</Text>
-      </TouchableOpacity>
+      </TouchableOpacity>: null 
+
+      
     );
   }
 }

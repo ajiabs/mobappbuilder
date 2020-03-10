@@ -5,6 +5,7 @@ import { Styles } from '../assets/css/styles';
 import { AssetsImages } from '../assets/images';
 import { BuildConfig } from '../config';
 import RNPaypal from 'react-native-paypal-lib';
+import { APIEndpoints } from '../config/ApiEndpoints';
 let { width } = Dimensions.get('window');
 export default class EventPayment extends React.Component {
   constructor(props) {
@@ -60,7 +61,7 @@ export default class EventPayment extends React.Component {
       events_id:navigation.getParam('events_id')
     };
 
-    return fetch('https://mobapp.iscriptsdemo.com/api/events/insertPayments',
+    return fetch(APIEndpoints.INSERT_PAYMENT,
     {
     method: "POST",
     headers: {
@@ -117,7 +118,7 @@ console.log(this.props);
       token_id: BuildConfig.token_id,
     };
     console.log(JSON.stringify(data));
-    return fetch('https://mobapp.iscriptsdemo.com/api/events/getPayPalId',
+    return fetch(APIEndpoints.GET_PAY_ID,
     {
     method: "POST",
     headers: {

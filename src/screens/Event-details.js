@@ -1,18 +1,10 @@
 import React from "react";
-import {
-  View,
-  Text,
-  Dimensions,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  Button,
-  Alert
-} from "react-native";
+import { Alert, Dimensions, Image, ScrollView, Text, View } from "react-native";
+import RNPaypal from "react-native-paypal-lib";
 import { Styles } from "../assets/css/styles";
 import { AssetsImages } from "../assets/images";
 import { BuildConfig } from "../config";
-import RNPaypal from "react-native-paypal-lib";
+import { APIEndpoints } from "../config/ApiEndpoints";
 let { width } = Dimensions.get("window");
 export default class EventDetails extends React.Component {
   constructor(props) {
@@ -88,7 +80,7 @@ export default class EventDetails extends React.Component {
       token_id: BuildConfig.token_id
     };
     console.log(JSON.stringify(data));
-    return fetch("https://mobapp.iscriptsdemo.com/api/events/getPayPalId", {
+    return fetch(APIEndpoints.GET_PAY_ID, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -174,12 +166,12 @@ export default class EventDetails extends React.Component {
               </Text>
             </View>
 
-            <Text
+            {/* <Text
               style={Styles.customDonateText}
               onPress={() => this.LoadingPayPalButton()}
             >
               DONATE
-            </Text>
+            </Text> */}
             {/* <Text> {'\n'}</Text> */}
 
             {/* {this.LoadingPayPalButton()} */}

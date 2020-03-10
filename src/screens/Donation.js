@@ -1,30 +1,16 @@
 // flow
 
 import React, { Component } from "react";
-import {
-  FlatList,
-  ImageBackground,
-  SafeAreaView,
-  StatusBar,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  TouchableHighlight,
-  Text,
-  TextInput,
-  ScrollView,
-  Image,
-  View,
-  Alert,
-  RefreshControl
-} from "react-native";
+import { Alert, FlatList, Image, ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { Card } from "react-native-elements";
-import { AssetsImages } from "../assets/images";
-import styles from "../assets/css/styles_donation";
-// import {Font, FontSize} from '../utils';
+import Icon from 'react-native-vector-icons/dist/MaterialIcons';
 import RNPaypal from "react-native-paypal-lib";
+import styles from "../assets/css/styles_donation";
+import { AssetsImages } from "../assets/images";
 import { BuildConfig } from "../config";
-import { SuccessView } from "../screens/SuccessView";
+import { APIEndpoints } from "../config/ApiEndpoints";
 import { FailureView } from "../screens/FailureView";
+import { SuccessView } from "../screens/SuccessView";
 
 // import Snackbar from 'react-native-snackbar';
 // import ContentLoader, {Rect, Circle} from 'react-content-loader/native';
@@ -64,30 +50,34 @@ export class Donation extends Component<Props, State> {
       token: "",
       isRefreshing: false,
       visbltyCntntLdr: false,
-      dollarAmountArray: [
-        { data: "$5", id: "1", value: "5" },
-        { data: "$10", id: "2", value: "10" },
-        { data: "$15", id: "3", value: "15" },
-        { data: "$20", id: "4", value: "20" },
-        { data: "$25", id: "5", value: "25" }
-      ],
-      notfctnArray: [
-        { data: "one" },
-        { data: "two" },
-        { data: "three" },
-        { data: "four" },
-        { data: "five" },
-        { data: "six" }
-      ]
+      // dollarAmountArray: [
+      //   { data: "$5", id: "1", value: "5" },
+      //   { data: "$10", id: "2", value: "10" },
+      //   { data: "$15", id: "3", value: "15" },
+      //   { data: "$20", id: "4", value: "20" },
+      //   { data: "$25", id: "5", value: "25" }
+      // ],
+      dollarAmountArray: BuildConfig.donationAmountArray,
+      // notfctnArray: [
+      //   { data: "one" },
+      //   { data: "two" },
+      //   { data: "three" },
+      //   { data: "four" },
+      //   { data: "five" },
+      //   { data: "six" }
+      // ]
     };
   }
 
+
   componentDidMount() {
+  console.warn("dollararray"+ BuildConfig.donationAmountArray)
+
     var data = {
       token_id: BuildConfig.token_id
     };
     console.log(JSON.stringify(data));
-    return fetch("https://mobapp.iscriptsdemo.com/api/events/getPayPalId", {
+    return fetch(APIEndpoints.GET_PAY_ID, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -125,10 +115,20 @@ export class Donation extends Component<Props, State> {
     this.setState({ dollarAmountToPay: text });
   };
 
+  amountScrollToNext = () => {
+    this.amountFlatList.scrollToEnd({animated: true})
+  } 
+
+  amountScrollToBack = () => {
+    this.amountFlatList.scrollToOffset({offset: 0, animated: true});
+  }
+
   render() {
     return (
-      <ScrollView style={styles.scrollviewStyle}
-      contentContainerStyle={{ paddingBottom: 10 }}>
+      <ScrollView
+        style={styles.scrollviewStyle}
+        contentContainerStyle={{ paddingBottom: 10 }}
+      >
         <View style={styles.container}>
           <StatusBar
             translucent
@@ -156,20 +156,18 @@ export class Donation extends Component<Props, State> {
               <View style={styles.card}>
                 <Text style={styles.onetimeText}>ONE TIME</Text>
                 <View style={styles.horiListBg}>
+                  <TouchableOpacity style={styles.arrowButtonContainer} onPress={this.amountScrollToBack}>
+                    <Icon name="chevron-left" size={30} color="white" />
+                  </TouchableOpacity>
                   <FlatList
+                    ref={ref => this.amountFlatList = ref}
                     style={{ margin: 5, marginTop: 0 }}
-                    contentContainerStyle={{
-                      flex: 1,
-                      justifyContent: "center"
-                    }}
-                    extraData={this.state.selectedItem} //Must implemented
+                    extraData={this.state.selectedItem}
                     horizontal={true}
-                    data={this.state.dollarAmountArray}
-                    keyExtractor={item => item.id.toString()}
+                    scrollEnabled={true}
                     showsHorizontalScrollIndicator={false}
-                    //   renderItem={({ item, index }) =>
-                    //   this.renderDollarAmountItem(item, index)
-                    // }
+                    data={this.state.dollarAmountArray}
+                    keyExtractor={item => String(item.id)}
                     renderItem={({ item }) => (
                       <TouchableOpacity
                         onPress={() => this.onPressHandler(item.id, item.value)}
@@ -186,8 +184,6 @@ export class Donation extends Component<Props, State> {
                                   alignSelf: "center",
                                   flex: 1,
                                   justifyContent: "center",
-                                  // width:'100%',
-                                  // backgroundColor: "transparent",
                                   borderWidth: 0, //no effect
                                   shadowColor: "transparent", //no effect
                                   borderBottomColor: "transparent",
@@ -197,8 +193,6 @@ export class Donation extends Component<Props, State> {
                               : {
                                   borderRadius: 5,
                                   elevation: 0,
-                                  // backgroundColor: "transparent"
-                                  // width:'100%',
                                   backgroundColor: "transparent",
                                   margin: 5,
                                   padding: 10,
@@ -213,43 +207,18 @@ export class Donation extends Component<Props, State> {
                           }
                         >
                           <Text
-                            // style={{ color: "white", margin: 0, fontSize: 18 }}
                             style={styles.dollarTextNew}
                           >
                             {item.data}
                           </Text>
-                          {/* <Text
-                       // style={{color: 'white'}}
-                          // style={
-                          //   this.state.isFocused1
-                          //     ? (style = styles.dollarTextWhenFocus)
-                          //     : (style = styles.dollarText)
-                          // }
-                          onPress={() => {
-                            this.setState({
-                              isFocused1: true,
-                              isFocused2: false,
-                              isFocused3: false,
-                              isFocused4: false,
-                              isFocused5: false
-                            });
-                          }}
-                        >
-                          {item.data}
-                        </Text> */}
                         </Card>
                       </TouchableOpacity>
                     )}
                   />
 
-                  {/* <FlatList
-                  data={this.state.dollarAmountArray}
-                  showsHorizontalScrollIndicator={false}
-                  renderItem={({ item, index }) =>
-                    this.renderDollarAmountItem(item, index)
-                  }
-                  horizontal={true}
-                /> */}
+                <TouchableOpacity style={styles.arrowButtonContainer} onPress={this.amountScrollToNext}>
+                    <Icon name="chevron-right" size={30} color="white" />
+                </TouchableOpacity>
                 </View>
                 <TextInput
                   style={styles.customAmountText}
@@ -258,8 +227,7 @@ export class Donation extends Component<Props, State> {
                     this.textInput = input;
                   }}
                   onChangeText={text => this.handleTextChange(text)}
-                  // value={this.state.dollarAmountToPay}
-
+                  value={this.state.dollarAmountToPay}
                   onFocus={() => {
                     {
                       console.log("onFocus");
@@ -314,6 +282,16 @@ export class Donation extends Component<Props, State> {
       })
         .then(response => {
           console.log(response);
+          console.log(response.response.id);
+          this.sendPaymentInfo(
+            "this.state.email",
+            "this.state.name",
+            this.state.dollarAmountToPay,
+            response.response.id
+          );
+          this.setState({
+            dollarAmountToPay: ""
+          });
           this.successview.show(true);
         })
         .catch(err => {
@@ -327,6 +305,37 @@ export class Donation extends Component<Props, State> {
     } else {
       Alert.alert("Please select or input an amount.");
     }
+  };
+
+  sendPaymentInfo = (email, name, amount, transaction_id) => {
+    const { navigation } = this.props;
+    var data = {
+      email: email,
+      name: name,
+      amount: amount,
+      transaction_id: transaction_id,
+      created_user_id: BuildConfig.token_id,
+      events_id: navigation.getParam("events_id")
+    };
+
+    // console.warn("-----data-----" + data.email);
+    // console.warn("-----email-----" + data.email);
+    // console.warn("-----name-----" + data.name);
+    // console.warn("-----amount-----" + data.amount);
+    // console.warn("-----transaction_id-----" + data.transaction_id);
+    // console.warn("-----created_user_id-----" + data.created_user_id);
+    // console.warn("-----events_id-----" + data.events_id);
+
+    return fetch(APIEndpoints.INSERT_PAYMENT, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    }).then(response => {
+      console.log(response);
+    });
   };
 
   renderDollarAmountItem = (item, index) => (

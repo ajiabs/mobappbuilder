@@ -7,33 +7,26 @@
  */
 
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-  Image,
-} from 'react-native';
-
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-import { createBottomTabNavigator } from 'react-navigation-tabs';
+import SplashScreen from 'react-native-splash-screen';
 import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
+import OfflineAlert from './src/assets/components/OfflineAlert';
 import { MenuNavigation } from './src/navigation';
+
 const AppNavigator = MenuNavigation.bottomNavigation;
 const AppContainer = createAppContainer(AppNavigator);
 console.disableYellowBox = true;
+
 export default class App extends React.Component {
+
+  componentDidMount () {
+    SplashScreen.hide();
+  }
   render() {
-    return <AppContainer  />;
+    return (
+      <>
+        <AppContainer  />
+        <OfflineAlert/>
+      </>
+    )
   }
 }

@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text,Image,ActivityIndicator,TouchableOpacity } from 'react-native';
+import { View, Text,Image,ActivityIndicator,TouchableOpacity,Linking } from 'react-native';
 import { AssetsImages } from '../../assets/images'
 import { BuildConfig } from '../../config';
 import { Styles } from '../../assets/css/styles';
 import styles from './styles';
+import { APIEndpoints } from '../../config/ApiEndpoints';
 export default class ContactUs extends React.Component {
   static navigationOptions = {
     title: 'ContactUs',
@@ -11,28 +12,27 @@ export default class ContactUs extends React.Component {
   constructor(props) {
     super(props);
     this.state ={ isLoading: true}
+    this.getContactDetails()
   }
 
 
   
-
-  componentDidMount(){
-      
+  getContactDetails = () => {
     var data = {
       token_id: BuildConfig.token_id,
     };
-    return fetch('https://mobapp.iscriptsdemo.com/api/general-settings/getGeneralSettings',
+    return fetch(APIEndpoints.GET_SETTINGS,
     {
     method: "POST",
     headers: {
-    "Accept": "application/json",
-    "Content-Type": "application/json"
+      "Accept": "application/json",
+      "Content-Type": "application/json"
     },
     body: JSON.stringify(data)
     })
       .then((response) => response.json())
       .then((responseJson) => {
-
+      console.warn('response ',responseJson )
         this.setState({
           isLoading: false,
           dataSource: responseJson,
@@ -45,8 +45,18 @@ export default class ContactUs extends React.Component {
         console.error(error);
       });
   }
-  render() {
 
+  handleContactAction = (action, contactData) => {
+    if (action === 'phone') {
+      Linking.openURL(`tel:${contactData}`);
+    } else if (action === 'email') {
+      Linking.openURL(`mailto:${contactData}`);
+    } else if (action === 'url'){
+      Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${contactData}`);
+    }
+  }
+
+  render() {
     if(this.state.isLoading){
       return(
         <View style={{flex: 1, padding: '50%'}}>
@@ -78,30 +88,36 @@ export default class ContactUs extends React.Component {
   renderContent() {
     return(
       <View>
-        <View style={styles.locationContainer}> 
+        <TouchableOpacity onPress= {()=> this.handleContactAction('url',this.state.dataSource.contact_address )} style={styles.locationContainer}> 
           <View style={styles.locationImgContainer}>
             <Image style={styles.locationImg} source={AssetsImages.location}></Image>
           </View>
           <View style={styles.locationTextContainer}>
             <Text style={styles.locationText} numberOfLines={3}>{this.state.dataSource.contact_address}</Text>
           </View>
-        </View>
-        <View style={styles.phoneContainer}>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress = {()=> this.handleContactAction('phone', this.state.dataSource.contact_phone_no)} style={styles.phoneContainer}>
           <View style={styles.phoneImgContainer}>
             <Image source={AssetsImages.phone} style={styles.phoneImg}></Image>
           </View>
           <View style={styles.phoneTextContainer}>
             <Text style={styles.phoneText}>{this.state.dataSource.contact_phone_no}</Text>
           </View>
-        </View>
-        <View style={styles.emailContainer}>
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+          onPress = {()=> this.handleContactAction('email', this.state.dataSource.contact_email)} 
+          style={styles.emailContainer}
+        >
           <View style={styles.emailImgContainer}>
             <Image source={AssetsImages.email} style={styles.emailImg}></Image>
           </View>
           <View style={styles.emailTextContainer}>
             <Text style={styles.emailText}>{this.state.dataSource.contact_email}</Text>
           </View>
-        </View>
+        </TouchableOpacity>
+
       </View>
     )
   }

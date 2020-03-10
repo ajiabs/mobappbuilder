@@ -9,6 +9,9 @@ export default StyleSheet.create({
     textAlign: "center"
   },
 
+  scrollviewStyle: {
+    marginBottom: 120
+  },
   toolbar: {
     width: "100%",
     height: 300,
@@ -40,6 +43,7 @@ export default StyleSheet.create({
     width: "85%",
     alignSelf: "center",
     marginTop: 15,
+    marginBottom:50,
     fontFamily: Font.Regular,
     fontSize: FontSize.Normal
   }

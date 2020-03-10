@@ -11,6 +11,10 @@ import { Styles } from "../assets/css/styles";
 import { AssetsImages } from "../assets/images";
 import { BuildConfig } from "../config";
 import styles from "../assets/css/styles_about_us";
+import { APIEndpoints } from "../config/ApiEndpoints";
+import { BASE_URL } from "../config/ApiDomain";
+
+ 
 
 export default class AboutUs extends React.Component {
   static navigationOptions = {
@@ -18,7 +22,7 @@ export default class AboutUs extends React.Component {
   };
   constructor(props) {
     super(props);
-    this.state = { isLoading: true };
+    this.state = { isLoading: true, headerTitle : '',imageURL : '',contentBody : ''};
   }
 
   componentDidMount() {
@@ -26,7 +30,7 @@ export default class AboutUs extends React.Component {
       token_id: BuildConfig.token_id,
       slug: "about_us"
     };
-    return fetch("https://mobapp.iscriptsdemo.com/api/pages/getPageContent", {
+    return fetch(APIEndpoints.ABOUT_US, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -36,10 +40,14 @@ export default class AboutUs extends React.Component {
     })
       .then(response => response.json())
       .then(responseJson => {
+        console.warn("response   " + responseJson);
+        console.warn("page_title   " + responseJson.page_title);
         this.setState(
           {
             isLoading: false,
-            dataSource: responseJson.page_description
+            headerTitle: responseJson.data.page_title,
+            imageURL: responseJson.data.file_path,
+            contentBody: responseJson.data.page_description,
           },
           function() {}
         );
@@ -59,8 +67,10 @@ export default class AboutUs extends React.Component {
     }
 
     return (
-      <View>
-        <ScrollView showsVerticalScrollIndicator={false}>
+      <View   >
+        <ScrollView 
+        
+        showsVerticalScrollIndicator={false}>
           <View style={styles.toolbar}>
             <TouchableOpacity
               onPress={() => this.props.navigation.navigate("More")}
@@ -71,15 +81,18 @@ export default class AboutUs extends React.Component {
               ></Image>
             </TouchableOpacity>
 
-            <Text style={styles.title}>About Us</Text>
+            <Text style={styles.title}>{this.state.headerTitle}</Text>
           </View>
           <View>
             <Image
-              source={AssetsImages.about_us_img}
+              // source={AssetsImages.about_us_img}
+              source={{
+                uri: BASE_URL + this.state.imageURL
+              }}
               style={[styles.about_us_image]}
             ></Image>
 
-            <Text style={styles.content}>{this.state.dataSource}</Text>
+            <Text style={styles.content}>{this.state.contentBody}</Text>
           </View>
         </ScrollView>
       </View>
