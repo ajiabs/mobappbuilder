@@ -69,8 +69,9 @@ export default class EventListingDetail extends React.Component {
     );
   }
   renderDonateButton() {
+    let donate = this.props.navigation.getParam("hasDonate")
     return (
-      BuildConfig.paypal_client_id != undefined && BuildConfig.paypal_client_id.trim() != ''? <TouchableOpacity
+      donate ? <TouchableOpacity
         onPress={() => this.LoadingPayPalButton()}
         style={styles.buttonContainer}
       >

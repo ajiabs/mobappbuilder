@@ -11,6 +11,7 @@ import {
     ICON_BACK,
     ICON_MARKER,
     ICON_NEWS_FEED,
+    ICON_EMPTY,
 } from './svgIcons';
 import {SvgXml} from 'react-native-svg';
 
@@ -19,6 +20,7 @@ const IMAGES = {
   back: ICON_BACK,
   marker: ICON_MARKER,
   newsfeedIcon: ICON_NEWS_FEED,
+  listEmpty: ICON_EMPTY,
 };
 
 /**

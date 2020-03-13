@@ -34,6 +34,27 @@ type State = {
   notfctnArray: Array<any>
 };
 
+
+const validateFields = (email, name) => {
+  let emailError = '';
+  let nameError = '';
+  let validationStatus = true;
+  if (email === undefined || email.trim() === '') {
+    emailError = 'Please enter email';
+    validationStatus = false;
+  } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+    emailError = 'Please enter a valid email address';
+    validationStatus = false;
+
+  }
+  if (name === undefined || name.trim() === '') {
+    nameError = 'Please enter name';
+    validationStatus = false;
+
+  }
+  return {emailError: emailError, nameError: nameError,  validationStatus: validationStatus};
+};
+
 export class Donation extends Component<Props, State> {
   constructor(props: any) {
     super(props);
@@ -42,6 +63,10 @@ export class Donation extends Component<Props, State> {
       selectedItem: "",
       paypal_client_id: "",
       dollarAmountToPay: "",
+      name: '',
+      email: '',
+      nameError: '',
+      emailError: '',
       isFocused1: false,
       isFocused2: false,
       isFocused3: false,
@@ -50,22 +75,7 @@ export class Donation extends Component<Props, State> {
       token: "",
       isRefreshing: false,
       visbltyCntntLdr: false,
-      // dollarAmountArray: [
-      //   { data: "$5", id: "1", value: "5" },
-      //   { data: "$10", id: "2", value: "10" },
-      //   { data: "$15", id: "3", value: "15" },
-      //   { data: "$20", id: "4", value: "20" },
-      //   { data: "$25", id: "5", value: "25" }
-      // ],
       dollarAmountArray: BuildConfig.donationAmountArray,
-      // notfctnArray: [
-      //   { data: "one" },
-      //   { data: "two" },
-      //   { data: "three" },
-      //   { data: "four" },
-      //   { data: "five" },
-      //   { data: "six" }
-      // ]
     };
   }
 
@@ -136,6 +146,7 @@ export class Donation extends Component<Props, State> {
             barStyle="light-content"
           />
           <View contentContainerstyStyle={styles.container}>
+
             <View style={styles.headerView}>
               <View style={styles.titleView}>
                 <TouchableOpacity
@@ -150,11 +161,13 @@ export class Donation extends Component<Props, State> {
                   />
                 </TouchableOpacity>
 
-                <Text style={styles.title}>Donation</Text>
+                <Text style={styles.title}>Payment Information</Text>
               </View>
 
+              {this.renderUserDataInputArea()}
+
               <View style={styles.card}>
-                <Text style={styles.onetimeText}>ONE TIME</Text>
+                <Text style={styles.onetimeText}>One Time</Text>
                 <View style={styles.horiListBg}>
                   <TouchableOpacity style={styles.arrowButtonContainer} onPress={this.amountScrollToBack}>
                     <Icon name="chevron-left" size={30} color="white" />
@@ -245,7 +258,7 @@ export class Donation extends Component<Props, State> {
                 this.gotoPaypalPaymentGateway();
               }}
             >
-              <Text style={styles.payNowText}>PAY NOW</Text>
+              <Text style={styles.payNowText}>Donate With PayPal</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -263,48 +276,88 @@ export class Donation extends Component<Props, State> {
     );
   }
 
-  gotoPaypalPaymentGateway = () => {
-    console.warn("amount  " + this.state.dollarAmountToPay);
-    if (
-      this.state.dollarAmountToPay != undefined &&
-      this.state.dollarAmountToPay.trim() != ""
-    ) {
-      var totalPrice = parseInt(this.state.dollarAmountToPay);
-      RNPaypal.paymentRequest({
-        // clientId: 'ASo31Vu1lEVVVuYuOe61ynzhqDFRtP2znoSufGOTzjrPvcN11Y9QrI-olbLjB68TpAY5lq2t8b87Youg',
-        clientId: this.state.paypal_client_id,
-        environment: RNPaypal.ENVIRONMENT.NO_NETWORK,
-        intent: RNPaypal.INTENT.SALE,
-        price: totalPrice,
-        currency: "USD",
-        description: `Android testing`,
-        acceptCreditCards: true
-      })
-        .then(response => {
-          console.log(response);
-          console.log(response.response.id);
-          this.sendPaymentInfo(
-            "this.state.email",
-            "this.state.name",
-            this.state.dollarAmountToPay,
-            response.response.id
-          );
-          this.setState({
-            dollarAmountToPay: ""
-          });
-          this.successview.show(true);
-        })
-        .catch(err => {
-          console.log(err.message);
-          const substring = "User cancelled";
-          if (err.message.includes(substring)) {
-          } else {
-            this.failureview.show(true, "1234567890");
-          }
-        });
-    } else {
-      Alert.alert("Please select or input an amount.");
+  renderUserDataInputArea=()=> {
+    return(
+      <View style={{marginTop: 20}}>
+        <TextInput
+        style={styles.userDataTextInput}
+
+        onChangeText={text => this.setState({name: text, nameError:''})}
+        value={this.state.name}
+        placeholder="Name"
+        placeholderTextColor="#768BA7"
+      ></TextInput>
+      {this.renderTextErrorView(this.state.nameError, this.state.nameError)}
+      <TextInput
+        style={styles.userDataTextInput}
+        keyboardType= "email-address"
+        onChangeText={text => this.setState({email:text, emailError: ''})}
+        value={this.state.email}
+        placeholder="Name"
+        placeholderTextColor="#768BA7"
+      ></TextInput>
+      {this.renderTextErrorView(this.state.nameError, this.state.emailError)}
+      </View>
+    )
+  }
+
+  renderTextErrorView = (value, text) => {
+    if (true) {
+       return <Text style={styles.errorText}>{text}</Text>
+    }else{
+      return null
     }
+  }
+  
+
+  gotoPaypalPaymentGateway = () => {
+    const {name , email} = this.state;
+    let validationResponse = validateFields(email, name);
+    if(validationResponse.validationStatus){
+      if (
+        this.state.dollarAmountToPay != undefined &&
+        this.state.dollarAmountToPay.trim() != ""
+      ) {
+        var totalPrice = parseInt(this.state.dollarAmountToPay);
+        RNPaypal.paymentRequest({
+          // clientId: 'ASo31Vu1lEVVVuYuOe61ynzhqDFRtP2znoSufGOTzjrPvcN11Y9QrI-olbLjB68TpAY5lq2t8b87Youg',
+          clientId: this.state.paypal_client_id,
+          environment: RNPaypal.ENVIRONMENT.NO_NETWORK,
+          intent: RNPaypal.INTENT.SALE,
+          price: totalPrice,
+          currency: "USD",
+          description: `Android testing`,
+          acceptCreditCards: true
+        })
+          .then(response => {
+            console.log(response);
+            console.log(response.response.id);
+            this.sendPaymentInfo(
+              this.state.email,
+              this.state.name,
+              this.state.dollarAmountToPay,
+              response.response.id
+            );
+            this.setState({
+              dollarAmountToPay: ""
+            });
+            this.successview.show(true);
+          })
+          .catch(err => {
+            console.log(err.message);
+            const substring = "User cancelled";
+            if (err.message.includes(substring)) {
+            } else {
+              this.failureview.show(true, "1234567890");
+            }
+          });
+      } else {
+        Alert.alert("Please select or input an amount.");
+      }
+    }else {
+      this.setState({emailError: validationResponse.emailError, nameError: validationResponse.nameError })
+    }
+    
   };
 
   sendPaymentInfo = (email, name, amount, transaction_id) => {
@@ -317,14 +370,6 @@ export class Donation extends Component<Props, State> {
       created_user_id: BuildConfig.token_id,
       events_id: navigation.getParam("events_id")
     };
-
-    // console.warn("-----data-----" + data.email);
-    // console.warn("-----email-----" + data.email);
-    // console.warn("-----name-----" + data.name);
-    // console.warn("-----amount-----" + data.amount);
-    // console.warn("-----transaction_id-----" + data.transaction_id);
-    // console.warn("-----created_user_id-----" + data.created_user_id);
-    // console.warn("-----events_id-----" + data.events_id);
 
     return fetch(APIEndpoints.INSERT_PAYMENT, {
       method: "POST",

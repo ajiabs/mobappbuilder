@@ -9,7 +9,7 @@
 import React from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import { createAppContainer } from 'react-navigation';
-import OfflineAlert from './src/assets/components/OfflineAlert';
+import OfflineAlert from './src/components/OfflineAlert';
 import { MenuNavigation } from './src/navigation';
 
 const AppNavigator = MenuNavigation.bottomNavigation;

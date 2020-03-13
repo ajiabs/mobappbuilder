@@ -14,4 +14,12 @@
             android:layout_height="80dp"
             android:layout_gravity="center"
             android:src="@drawable/logo" />
+     <TextView
+         android:id="@+id/text_view_id"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="Give Charity,Change a lot"
+         android:textSize="18dp"
+         android:textColor="#fff" />
+
 </LinearLayout>

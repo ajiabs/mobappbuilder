@@ -53,6 +53,18 @@ export default class ContactUs extends React.Component {
       Linking.openURL(`mailto:${contactData}`);
     } else if (action === 'url'){
       Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${contactData}`);
+    }else if (action = 'social') {
+      if(contactData) { 
+        Linking.canOpenURL(contactData)
+          .then((supported) => {
+            if (!supported) {
+              console.log("Can't handle url: " + contactData);
+            } else {
+                return Linking.openURL(contactData);
+            }
+          })
+          .catch((err) => console.log('An error occurred', err));
+      }
     }
   }
 
@@ -80,7 +92,7 @@ export default class ContactUs extends React.Component {
         </View> 
         <View style={styles.bodyContainer}>
             {this.renderContent()}
-            {this.renderConnectWith()}
+            {(this.state.dataSource.twitter_url || this.state.dataSource.facebook_url ) ? this.renderConnectWith(): null}
           </View>
       </View>
     );
@@ -128,19 +140,28 @@ export default class ContactUs extends React.Component {
           <Text style={styles.connectText}>Connect With Us</Text>
         </View>
         <View style={styles.imageContainer}>
-          <View style={styles.fbContainer}>
-            <Image source={AssetsImages.facebook} style={styles.fbImg}></Image>
-          </View>
-          <View style={styles.googleContainer}> 
+          { this.state.dataSource.facebook_url ?  this.renderfacebookIcon() : null}
+          {/* <View style={styles.googleContainer}> 
             <Image source={AssetsImages.googlePlus} style={styles.googleImg}></Image>
-          </View>
-          <View style={styles.twitterContainer}>
-            <Image source={AssetsImages.twitter} style={styles.twitterImg}></Image>
-          </View>
+          </View> */}
+          {this.state.dataSource.twitter_url ?  this.renderTwitterLink(): null}
         </View>
       </View>
     )
   }
+
+  renderfacebookIcon = () => (
+    <TouchableOpacity style={styles.fbContainer} onPress={()=> this.handleContactAction('social', this.state.dataSource.facebook_url)}>
+      <Image source={AssetsImages.facebook} style={styles.fbImg}></Image>
+    </TouchableOpacity> 
+  )
+
+  renderTwitterLink = () => (
+    <TouchableOpacity style={styles.twitterContainer} onPress={()=> this.handleContactAction('social', this.state.dataSource.twitter_url)}>
+            <Image source={AssetsImages.twitter} style={styles.twitterImg}>
+            </Image>
+    </TouchableOpacity>
+  )
 
 }
 

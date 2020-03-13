@@ -103,9 +103,9 @@ export default BottomTabNavigation = createBottomTabNavigator(
     Home: {
       screen: HomeStack
     },
-    NewsFeed: {
-      screen: NewsFeedStack
-    },
+    // NewsFeed: {
+    //   screen: NewsFeedStack
+    // },
     More: {
       screen: MoreStack
     }

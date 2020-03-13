@@ -189,30 +189,20 @@ export default StyleSheet.create({
   },
 
   card: {
-    // marginLeft: 10,
-    // marginRight: 10,
     marginBottom: 10,
-    margin: 20,
+    margin: 10,
     flexDirection: "column",
     borderRadius: 10,
     height: 240,
-    // width: "100%",
-    // overflow: "hidden",
-    backgroundColor: "#EFF1F5"
   },
 
   onetimeText: {
-    padding: 15,
-    backgroundColor: "transparent",
-    // alignSelf: "center",
-    //  width: "100%",
+    paddingHorizontal: 15,
+    paddingVertical: 10,
     textAlign: "left",
-    // fontSize: 25,
-    fontFamily: Font.Regular,
-    fontSize: FontSize.Small,
-    // fontFamily: Font.Medium,
+    fontFamily: Font.Bold,
+    fontSize: FontSize.Large,
     color: "#2D2D2D"
-    //  marginLeft: 30
   },
   dollarTextWhenFocus: {
     paddingTop: 15,
@@ -256,7 +246,7 @@ export default StyleSheet.create({
      fontSize: FontSize.VeryLarge
   },
   payNowTextTouchableOpacity: {
-    marginTop: 70,
+    marginTop: 10,
     marginLeft: 20,
     marginRight: 20,
     height: 50,
@@ -310,6 +300,27 @@ export default StyleSheet.create({
     color: "#768BA7",
     //  marginLeft: 30
 
+    borderColor: "#B9C3DE",
+    borderWidth: 1,
+    borderRadius: 10,
+    shadowColor: "#E0E0E0",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1,
+    elevation: 0,
+    borderTopWidth: 2
+  },
+
+  userDataTextInput: {
+    marginTop: 10,
+    marginHorizontal: 20,
+    height: 60,
+    paddingLeft: 10,
+    backgroundColor: "white",
+    textAlign: "left",
+    fontFamily: Font.Regular,
+    fontSize: FontSize.Small,
+    color: "#768BA7",
     borderColor: "#B9C3DE",
     borderWidth: 1,
     borderRadius: 10,
@@ -447,5 +458,11 @@ export default StyleSheet.create({
     height: '100%',
     justifyContent: 'center', 
     alignItems: 'center',
+  },
+  errorText: {
+    color: 'red',
+    marginLeft: 20,
+    fontFamily: Font.Regular,
+    fontSize: FontSize.Small,
   }
 });

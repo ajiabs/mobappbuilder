@@ -1,26 +1,18 @@
 import React from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  Image,
-  StyleSheet,
-  Button,
-  TouchableOpacity,
-  StatusBar
-} from "react-native";
-import { AssetsImages } from "../../assets/images";
+import { FlatList, Image, StatusBar, Text, TouchableOpacity, View, ActivityIndicator} from "react-native";
 import { BuildConfig } from "../../config";
-import styles from "./styles";
-import { APIEndpoints } from "../../config/ApiEndpoints";
 import { BASE_URL } from "../../config/ApiDomain";
+import { APIEndpoints } from "../../config/ApiEndpoints";
+import styles from "./styles";
+import SvgImage from "../../assets/svgIcons";
 const dummy = [{ data: "one" }, { data: "two" }, { data: "three" }];
-var Data = [];
 export default class EventListing extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      DataItem: Data
+      DataItem: [],
+      hasDonate: false,
+      loading: true,
     };
   }
   componentDidMount() {
@@ -42,12 +34,15 @@ export default class EventListing extends React.Component {
       .then(response => response.json())
       .then(responseJson => {
         if (responseJson.data != undefined) {
+          console.warn('response  LIST', responseJson)
+          let donate = responseJson.donate ? responseJson.donate : false
           this.setState({
-            DataItem: responseJson.data
+            DataItem: responseJson.data, loading: false, hasDonate: donate
           });
         }
       })
       .catch(error => {
+        this.setState({loading: false})
         console.warn(error);
       });
   }
@@ -62,20 +57,44 @@ export default class EventListing extends React.Component {
         <View style={styles.headerView}>
           <Text style={styles.title}>Events</Text>
         </View>
-        <FlatList
-            data={this.state.DataItem}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item, index }) => this.renderEventList(item, index)}
-            keyExtractor={item => item.id}
-          />
+        { this.state.loading ? this.renderActivityIndicator() : this.renderContent()}
       </View>
     );
   }
-  renderEventList = (item, index) => (
+
+  renderContent = () => (
+      <FlatList
+        data={this.state.DataItem}
+        showsHorizontalScrollIndicator={false}
+        renderItem={({ item, index }) => this.renderEventList(item, index)}
+        refreshing= {this.state.loading}
+        ListEmptyComponent={this.noListItemDisplay}
+        keyExtractor={item => item.id}
+      />
+  );
+
+  noListItemDisplay = () => (
+    <View style={{ flex: 1, justifyContent:'center', alignItems: 'center', backgroundColor: 'white',  marginTop: 50}}>
+     <SvgImage icon={'listEmpty'} height={150} width = {150}/>
+     <Text style={styles.noDataText}>Looks like there is no data</Text>
+    </View>
+  )
+
+  renderActivityIndicator = () => {
+    return (
+      <View style={{flex: 1, justifyContent:'center', alignItems: 'center'}}>
+        <ActivityIndicator size="large" color= {BuildConfig.background_color ? BuildConfig.background_color : "black"} />
+      </View>
+    )
+  }
+
+  renderEventList = (item, index) => {
+    let newData = {...item, "hasDonate": this.state.hasDonate }
+    return(
     <View style={styles.eventListContainer}>
       <TouchableOpacity
         onPress={() =>
-          this.props.navigation.navigate("EventListingDetail", item)
+          this.props.navigation.navigate("EventListingDetail", newData)
         }
       >
         <View style={styles.imageContainerStyle}>
@@ -99,7 +118,8 @@ export default class EventListing extends React.Component {
             </Text>
           </View>
         </View>
-       { BuildConfig.paypal_client_id != undefined && BuildConfig.paypal_client_id.trim() != ''? <TouchableOpacity
+        { console.warn ('adsd ---- -',this.state.hasDonate)}
+       { this.state.hasDonate ? <TouchableOpacity
           style={styles.donateContainer}
           onPress={() => this.props.navigation.navigate("Donation", item)}
         >
@@ -108,5 +128,6 @@ export default class EventListing extends React.Component {
         }
       </View>
     </View>
-  );
+    )
+  };
 }

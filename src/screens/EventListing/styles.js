@@ -3,7 +3,7 @@ import { BuildConfig } from "../../config";
 import { Font, FontSize } from "../../utils";
 export default StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1, backgroundColor: 'white'
   },
   headerView: {
     backgroundColor: BuildConfig.background_color,
@@ -72,5 +72,10 @@ export default StyleSheet.create({
     fontFamily: Font.Regular,
     fontSize: FontSize.Small,
     color: "#3266B9"
-  }
+  },
+  noDataText: {
+    fontFamily: Font.Regular,
+    fontSize: FontSize.Average,
+    color: "black"
+  },
 });
