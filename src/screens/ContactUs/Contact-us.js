@@ -32,7 +32,6 @@ export default class ContactUs extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-      console.warn('response ',responseJson )
         this.setState({
           isLoading: false,
           dataSource: responseJson,

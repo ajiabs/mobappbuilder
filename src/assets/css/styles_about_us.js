@@ -31,11 +31,12 @@ export default StyleSheet.create({
     marginLeft: 30
   },
   title: {
-    fontFamily: Font.Regular,
+    fontFamily: Font.SemiBold,
     fontSize: FontSize.Largest,
     marginTop: 20,
     color: BuildConfig.text_color,
-    marginLeft: 30
+    marginLeft: 30,
+    opacity: 0.6,
   },
 
   content: {

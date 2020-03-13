@@ -26,7 +26,6 @@ export default class EventListingDetail extends React.Component {
             uri: BASE_URL + navigation.getParam("file_path")
           }}
             style={styles.backGroundimg}
-        //  resizeMode="stretch"
           >
             <TouchableOpacity
               style={styles.backContainer}
@@ -62,7 +61,7 @@ export default class EventListingDetail extends React.Component {
         </View>
         <View style={styles.textContentContainer}>
           <Text style={styles.textDetails}>
-            {navigation.getParam("summary")}
+            {navigation.getParam("event_summary")}
           </Text>
         </View>
       </View>

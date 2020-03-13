@@ -5,7 +5,8 @@ import { Font, FontSize } from "../../utils";
 const deviceHeight = Dimensions.get("window").height;
 export default StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: 'white',
   },
   headerImgContainer: {
     width: "100%"
@@ -34,9 +35,9 @@ export default StyleSheet.create({
     marginTop: 20
   },
   mainText: {
-    fontFamily: Font.Regular,
-    fontSize: FontSize.Medium,
-    color: "#3266B9"
+    fontFamily: Font.SemiBold,
+    fontSize: FontSize.Large,
+    color: BuildConfig.background_color
   },
   subTextContainer: {
     flexDirection: "row",

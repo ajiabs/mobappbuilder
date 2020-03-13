@@ -1,12 +1,8 @@
 {
-  "text_color": "#ffffff",
   "app_name": "KK APP",
   "app_overview": "Team Event Management",
   "app_logo": "logo.png",
-  "background_color": "#3266B9",
-  "menu_icon_color": "#3266B9",
-  "menu_text_color": "#3266B9",
-  "token_id": "46",
+  "token_id": "51",
   "paypal_client_id": "1",
   "donationAmountArray": [
     { "data": "$5", "id": "1", "value": "5" },

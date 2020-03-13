@@ -81,7 +81,6 @@ export class Donation extends Component<Props, State> {
 
 
   componentDidMount() {
-  console.warn("dollararray"+ BuildConfig.donationAmountArray)
 
     var data = {
       token_id: BuildConfig.token_id

@@ -1,6 +1,7 @@
 const Domain = {
-  Live: '',
-  Test: 'https://mobapps.com/',
+  Live: 'https://mobapps.com/',
+  Demo: 'https://mobapp.iscriptsdemo.com/',
+  jain: 'http://192.168.0.143:4000/'
 };
 
-export const BASE_URL = Domain.Test;
+export const BASE_URL = Domain.Live;

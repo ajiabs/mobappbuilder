@@ -45,6 +45,7 @@ export default class EventListing extends React.Component {
         this.setState({loading: false})
         console.warn(error);
       });
+      
   }
   render() {
     return (
@@ -118,7 +119,6 @@ export default class EventListing extends React.Component {
             </Text>
           </View>
         </View>
-        { console.warn ('adsd ---- -',this.state.hasDonate)}
        { this.state.hasDonate ? <TouchableOpacity
           style={styles.donateContainer}
           onPress={() => this.props.navigation.navigate("Donation", item)}

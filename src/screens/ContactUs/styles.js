@@ -4,7 +4,8 @@ import { Font, FontSize } from "../../utils";
 const deviceHeight = Dimensions.get("window").height;
 export default StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: 'white',
   },
   headerView: {
     backgroundColor: BuildConfig.background_color,
@@ -12,9 +13,10 @@ export default StyleSheet.create({
     height: 160
   },
   title: {
-    fontFamily: Font.Regular,
+    fontFamily: Font.SemiBold,
     fontSize: FontSize.Largest,
-    color: BuildConfig.text_color
+    color: BuildConfig.text_color,
+    opacity: 0.6, 
   },
   backArrowContainer: {
     marginTop: 55,

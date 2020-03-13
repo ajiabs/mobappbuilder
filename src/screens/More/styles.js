@@ -4,7 +4,8 @@ import { Font, FontSize } from "../../utils";
 
 export default StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: 'white',
   },
   headerView: {
     backgroundColor: BuildConfig.background_color,
@@ -27,7 +28,7 @@ export default StyleSheet.create({
     alignSelf: "center",
   },
   title: {
-    fontFamily: Font.Regular,
+    fontFamily: Font.SemiBold,
     fontSize: FontSize.LargeMedium,
     paddingBottom: 20,
     color: BuildConfig.text_color
@@ -41,7 +42,7 @@ export default StyleSheet.create({
     height: 50
   },
   aboutText: {
-    fontFamily: Font.Regular,
+    fontFamily: Font.Bold,
     fontSize: FontSize.MediumLarge
   },
   aboutHorizontal: {
@@ -56,7 +57,7 @@ export default StyleSheet.create({
     height: 50
   },
   contactText: {
-    fontFamily: Font.Regular,
+    fontFamily: Font.Bold,
     fontSize: FontSize.MediumLarge
   },
   contactHorizontal: {
