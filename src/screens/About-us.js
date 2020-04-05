@@ -22,7 +22,7 @@ export default class AboutUs extends React.Component {
   };
   constructor(props) {
     super(props);
-    this.state = { isLoading: true, headerTitle : '',imageURL : '',contentBody : ''};
+    this.state = { isLoading: true, isImageLoading: true, headerTitle : '',imageURL : '',contentBody : ''};
   }
 
   componentDidMount() {
@@ -30,6 +30,8 @@ export default class AboutUs extends React.Component {
       token_id: BuildConfig.token_id,
       slug: "about_us"
     };
+    console.warn("urllllllllllllllll   " + APIEndpoints.ABOUT_US);
+    console.warn("JSON.stringify(data)   " + JSON.stringify(data));
     return fetch(APIEndpoints.ABOUT_US, {
       method: "POST",
       headers: {
@@ -41,6 +43,7 @@ export default class AboutUs extends React.Component {
       .then(response => response.json())
       .then(responseJson => {
         console.warn("response   " + responseJson);
+        console.warn("responsezzzzzzz   " + JSON.stringify(responseJson));
         console.warn("page_title   " + responseJson.page_title);
         this.setState(
           {
@@ -84,18 +87,68 @@ export default class AboutUs extends React.Component {
             <Text style={styles.title}>{this.state.headerTitle}</Text>
           </View>
           <View>
-            <Image
-              // source={AssetsImages.about_us_img}
+
+ {/* {this.state.isImageLoading ?  <ActivityIndicator
+                        color="#3266B9"
+                        size="large"
+                        style={styles.active_rightside_text_red}
+                      />: <Image
+               source={{
+          uri: 'https://reactnative.dev/img/tiny_logo.png',
+        }}
+              style={[styles.about_us_image]}
+              onLoad={() => console.log('onLoad')}
+  onLoadStart={() => console.log('onLoadStart')}
+  onLoadEnd={() =>this._onLoad }
+            ></Image> 
+             } */}
+
+             {/* {this.state.isImageLoading ?  <ActivityIndicator
+                        color="#3266B9"
+                        size="large"
+                        style={styles.active_rightside_text_red}
+                      />: null
+             } */}
+
+            
+             {this.state.isImageLoading ? <ActivityIndicator
+                        color="#3266B9"
+                        size="large"
+                        style={styles.active_rightside_text_red}
+                      />  : null
+             }
+             <Image
+               source={{
+          uri: BASE_URL + this.state.imageURL,
+        }}
+              style={[styles.about_us_image]}
+              onLoad={() => console.log('onLoad')}
+  onLoadStart={() => console.log('onLoadStart')}
+  onLoadEnd={() =>this._onLoad() }
+            ></Image>
+          {/* {this.state.isImageLoading ?  <ActivityIndicator
+                        color="#3266B9"
+                        size="large"
+                        style={styles.active_rightside_text_red}
+                      />: <Image
               source={{
-                uri: BASE_URL + this.state.imageURL
+                uri: 'https://wallpapercave.com/wp/HeLC3lH.jpg'
+                // BASE_URL + this.state.imageURL
               }}
               style={[styles.about_us_image]}
+              onLoad={this._onLoad} 
             ></Image>
+             } */}
+            
 
             <Text style={styles.content}>{this.state.contentBody}</Text>
           </View>
         </ScrollView>
       </View>
     );
+  }
+  _onLoad = () => {
+    console.warn("image ha loaded   " );
+   this.setState(() => ({ isImageLoading: false }))
   }
 }

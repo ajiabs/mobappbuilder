@@ -5,43 +5,66 @@ const deviceHeight = Dimensions.get("window").height;
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    flexDirection: 'column',
+   // backgroundColor: '#FFEB3B',
   },
   headerView: {
     backgroundColor: BuildConfig.background_color,
-    width: "100%",
-    height: 160
+    // backgroundColor: '#ff0000',
+    // width: "100%",
+    // height: 160
+   // flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    // alignSelf:'center',
+    paddingLeft:30,
+    paddingRight:30,
+    paddingBottom:20,
+    paddingTop:55,
+    
   },
   title: {
     fontFamily: Font.SemiBold,
     fontSize: FontSize.Largest,
+    textAlign:'center', fontWeight: "bold",
+    'letterSpacing': 1,
     color: BuildConfig.text_color,
-    opacity: 0.6, 
+    // color: '#ffffff',
+
+    // opacity: 0.6, 
   },
   backArrowContainer: {
-    marginTop: 55,
-    alignItems: "flex-start",
-    marginLeft: 20
+  //  marginTop: 55,   
+     
+    //alignItems: "flex-start",
+   // marginLeft: 20
   },
   backArrow: {
-    height: 15,
     tintColor: "white",
+    height: 15,
     width: 30
   },
   hedingContainer: {
-    marginTop: 30,
-    marginLeft: 20,
-    marginBottom: 20
-  },
+    // marginTop: 30,
+     marginRight: 30,
+     flex:1,
+      // backgroundColor: '#03A9F4',
+    // marginBottom: 20
+   },
   bodyContainer: {
-    flex: 1,
+   // flex: 1,
+     flexDirection: "column",
+    //  justifyContent: 'center',
+    //  alignItems: 'center',
+    //  backgroundColor: '#03A9F4',
   },
   locationContainer: {
     flexDirection: "row",
     width: "100%",
     height:50,
     marginTop: 50,
-    marginLeft: 20,
+    marginLeft: 50,
   },
   locationImgContainer: {
     alignSelf:'center'
@@ -54,7 +77,7 @@ export default StyleSheet.create({
   },
   locationText: {
     fontFamily: Font.Regular,
-    fontSize: FontSize.Average,
+    fontSize: FontSize.Normal,
     alignSelf: "flex-start",
     marginTop: 5
   },
@@ -62,7 +85,7 @@ export default StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     height:50,
-    marginLeft: 20,
+    marginLeft: 50,
   },
   phoneImgContainer: {
     alignSelf:'center'
@@ -76,17 +99,18 @@ export default StyleSheet.create({
   },
   phoneText: {
     fontFamily: Font.Regular,
-    fontSize: FontSize.Average,
+    fontSize: FontSize.Normal,
     alignSelf: "flex-start",
   },
   emailContainer: {
     flexDirection: "row",
     width: "100%",
     height:50,
-    marginLeft: 20,
+    marginLeft: 50,
   },
   emailImgContainer: {
-    alignSelf:'center'
+    alignSelf:'center',  
+    
   },
   emailImg: {
   },
@@ -97,21 +121,29 @@ export default StyleSheet.create({
   },
   emailText: {
     fontFamily: Font.Regular,
-    fontSize: FontSize.Average,
+    fontSize: FontSize.Normal,
     alignSelf: "flex-start",
     marginTop: 5
   },
   connectWithUsContainer: {
-    flex:1,
-    marginTop:20,
+    // flex:1,
+    marginTop:20, 
+    marginLeft:50, 
+    
+    // 
   },
   connectTextContainer: {
-    marginLeft: 20,
-    width: "100%",
+    // marginLeft: 20,
+    // flex:1,
+    width: "100%", 
+   
     height: 50
   },
   connectText: {
-    fontFamily: Font.Regular,
+    fontFamily: Font.Regular, 
+    fontWeight: "bold",
+    'letterSpacing': 1,
+    // backgroundColor: '#ff0000',
     fontSize: FontSize.VeryLarge
   },
   imageContainer: {

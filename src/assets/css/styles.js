@@ -11,11 +11,39 @@ export const Styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    width: undefined,
-    height: undefined,
-    justifyContent: "center",
-    alignItems: "center"
+    backgroundColor: '#ff00ff',
+    // justifyContent: "center",
+    // alignItems: "center"
+    // paddingTop:100,
+    
+  },toolbar: {
+    // flex: 1,
+    backgroundColor: '#ff00ff',
+    // justifyContent: "center",
+   // width:'100%',
+    // height:'100%',
+   // marginLeft:15,
+    // alignItems: "center"
+    // paddingTop:100,
+    
+  },about_us_image: {
+    // flex: 1,
+    // backgroundColor: '#ff00ff',
+    // justifyContent: "center",
+   // width:'100%',
+    resizeMode:'stretch',
+   marginLeft:150,
+    // alignItems: "center"
+    // paddingTop:100,
+    
   },
+  // container: {
+  //   flex: 1,
+  //   width: undefined,
+  //   height: undefined,
+  //   justifyContent: "center",
+  //   alignItems: "center"
+  // },
   menu_bar: {
     flex: 1
   },
@@ -114,7 +142,11 @@ export const Styles = StyleSheet.create({
     flex: 1,
     overflow: "hidden"
   },
-
+  textDetails: {
+    fontFamily: Font.Regular,'letterSpacing': 1,
+    lineHeight: 20,textAlign: 'justify',
+    fontSize: FontSize.Small,
+  },
   inner_content: {
     marginTop: "50%",
     textAlign: "center"
@@ -128,7 +160,7 @@ export const Styles = StyleSheet.create({
     borderColor: "#000"
   },
   title: {
-    fontSize: 24
+    fontSize: FontSize.Largest,fontWeight: "bold",
   },
   about_logo: {
     marginLeft: "30%",

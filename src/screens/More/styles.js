@@ -28,7 +28,8 @@ export default StyleSheet.create({
     alignSelf: "center",
   },
   title: {
-    fontFamily: Font.SemiBold,
+    fontFamily: Font.SemiBold,fontWeight: "bold",
+    'letterSpacing': 1,
     fontSize: FontSize.LargeMedium,
     paddingBottom: 20,
     color: BuildConfig.text_color
@@ -42,7 +43,8 @@ export default StyleSheet.create({
     height: 50
   },
   aboutText: {
-    fontFamily: Font.Bold,
+    fontFamily: Font.Bold,fontWeight: "bold",
+    'letterSpacing': 1,
     fontSize: FontSize.MediumLarge
   },
   aboutHorizontal: {
@@ -57,7 +59,8 @@ export default StyleSheet.create({
     height: 50
   },
   contactText: {
-    fontFamily: Font.Bold,
+    fontFamily: Font.Bold,fontWeight: "bold",
+    'letterSpacing': 1,
     fontSize: FontSize.MediumLarge
   },
   contactHorizontal: {

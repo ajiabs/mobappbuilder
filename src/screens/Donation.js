@@ -1,16 +1,29 @@
 // flow
 
-import React, { Component } from "react";
-import { Alert, FlatList, Image, ScrollView, StatusBar, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { Card } from "react-native-elements";
+import React, {Component} from 'react';
+import {
+  Alert,
+  FlatList,
+  Image,
+  ScrollView,
+  Button,
+  StatusBar,
+  Text,
+  TextInput,
+  Modal,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {Card} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/dist/MaterialIcons';
-import RNPaypal from "react-native-paypal-lib";
-import styles from "../assets/css/styles_donation";
-import { AssetsImages } from "../assets/images";
-import { BuildConfig } from "../config";
-import { APIEndpoints } from "../config/ApiEndpoints";
-import { FailureView } from "../screens/FailureView";
-import { SuccessView } from "../screens/SuccessView";
+import RNPaypal from 'react-native-paypal-lib';
+import styles from '../assets/css/styles_donation';
+import {AssetsImages} from '../assets/images';
+import {BuildConfig} from '../config';
+import {APIEndpoints} from '../config/ApiEndpoints';
+import {FailureView} from '../screens/FailureView';
+import {SuccessView} from '../screens/SuccessView';
+import SvgImage from '../assets/svgIcons';
 
 // import Snackbar from 'react-native-snackbar';
 // import ContentLoader, {Rect, Circle} from 'react-content-loader/native';
@@ -19,8 +32,11 @@ type Props = {};
 
 type State = {
   loading: boolean,
+  disableDonateButton: boolean,
+  amountFocused: boolean,
   token: String,
   dollarAmountToPay: String,
+  amountToPayPalPay: number,
   selectedItem: String,
   paypal_client_id: String,
   visbltyCntntLdr: boolean,
@@ -31,9 +47,8 @@ type State = {
   dollarAmountArray: Array<any>,
   isFocused5: boolean,
   isRefreshing: boolean,
-  notfctnArray: Array<any>
+  notfctnArray: Array<any>,
 };
-
 
 const validateFields = (email, name) => {
   let emailError = '';
@@ -45,14 +60,16 @@ const validateFields = (email, name) => {
   } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
     emailError = 'Please enter a valid email address';
     validationStatus = false;
-
   }
   if (name === undefined || name.trim() === '') {
     nameError = 'Please enter name';
     validationStatus = false;
-
   }
-  return {emailError: emailError, nameError: nameError,  validationStatus: validationStatus};
+  return {
+    emailError: emailError,
+    nameError: nameError,
+    validationStatus: validationStatus,
+  };
 };
 
 export class Donation extends Component<Props, State> {
@@ -60,9 +77,12 @@ export class Donation extends Component<Props, State> {
     super(props);
     this.state = {
       loading: false,
-      selectedItem: "",
-      paypal_client_id: "",
-      dollarAmountToPay: "",
+      disableDonateButton: true,
+      amountFocused: false,
+      selectedItem: '',
+      paypal_client_id: '',
+      dollarAmountToPay: '',
+      amountToPayPalPay: 0,
       name: '',
       email: '',
       nameError: '',
@@ -72,38 +92,48 @@ export class Donation extends Component<Props, State> {
       isFocused3: false,
       isFocused4: false,
       isFocused5: false,
-      token: "",
+      token: '',
       isRefreshing: false,
       visbltyCntntLdr: false,
-      dollarAmountArray: BuildConfig.donationAmountArray,
+      dollarAmountArray: BuildConfig.payment_splits,
+      // dollarAmountArray: [
+      //   { data: "$5", id: "1", value: "5" },
+      //   { data: "$10", id: "2", value: "10" },
+      //   { data: "$15", id: "3", value: "15" },
+      //   { data: "$20", id: "4", value: "20" },
+      //   { data: "$25", id: "5", value: "25" }
+      // ],
     };
   }
 
-
   componentDidMount() {
-
     var data = {
-      token_id: BuildConfig.token_id
+      token_id: BuildConfig.token_id,
     };
-    console.log(JSON.stringify(data));
     return fetch(APIEndpoints.GET_PAY_ID, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
       .then(response => response.json())
       .then(responseJson => {
-        if (responseJson["paypal_client_id"] != undefined) {
-          console.log(responseJson["paypal_client_id"]);
+        console.log('GET_PAYPal_ID response' + JSON.stringify(responseJson));
+        if (responseJson['payment_splits'] != undefined) {
           this.setState({
-            paypal_client_id: responseJson["paypal_client_id"]
+            dollarAmountArray: responseJson.payment_splits,
+            disableDonateButton: false,
+          });
+        }
+        if (responseJson['paypal_client_id'] != undefined) {
+          this.setState({
+            paypal_client_id: responseJson['paypal_client_id'],
           });
         } else {
           this.setState({
-            paypal_client_id: ""
+            paypal_client_id: '',
           });
         }
       })
@@ -113,31 +143,38 @@ export class Donation extends Component<Props, State> {
   }
 
   async goBack() {
-    console.warn("onPress");
-  }
-  onPressHandler(id, value) {
-    this.textInput.clear();
-    this.setState({ selectedItem: id, dollarAmountToPay: value });
+    console.warn('onPress');
   }
 
-  handleTextChange = text => {
-    this.setState({ dollarAmountToPay: text });
+  onPressHandler = item => {
+    this.setState(
+      {selectedItem: item, dollarAmountToPay: item, amountFocused: true},
+      () => {},
+    );
+  };
+
+  handleTextChange = (text: any) => {
+    this.setState({dollarAmountToPay: text});
+    if (text.length >= 1) {
+      this.setState({amountFocused: true});
+    } else {
+      this.setState({amountFocused: false});
+    }
   };
 
   amountScrollToNext = () => {
-    this.amountFlatList.scrollToEnd({animated: true})
-  } 
+    this.amountFlatList.scrollToEnd({animated: true});
+  };
 
   amountScrollToBack = () => {
     this.amountFlatList.scrollToOffset({offset: 0, animated: true});
-  }
+  };
 
   render() {
     return (
       <ScrollView
         style={styles.scrollviewStyle}
-        contentContainerStyle={{ paddingBottom: 10 }}
-      >
+        contentContainerStyle={{paddingBottom: 10}}>
         <View style={styles.container}>
           <StatusBar
             translucent
@@ -145,15 +182,13 @@ export class Donation extends Component<Props, State> {
             barStyle="light-content"
           />
           <View contentContainerstyStyle={styles.container}>
-
             <View style={styles.headerView}>
               <View style={styles.titleView}>
                 <TouchableOpacity
-                  style={{ width: "20%" }}
+                  style={{width: '20%'}}
                   onPress={() => {
                     this.props.navigation.goBack();
-                  }}
-                >
+                  }}>
                   <Image
                     source={AssetsImages.left_arrow}
                     style={[styles.back_arrow]}
@@ -166,97 +201,137 @@ export class Donation extends Component<Props, State> {
               {this.renderUserDataInputArea()}
 
               <View style={styles.card}>
-                <Text style={styles.onetimeText}>One Time</Text>
+                <Text style={styles.onetimeText}>Select Amount</Text>
                 <View style={styles.horiListBg}>
-                  <TouchableOpacity style={styles.arrowButtonContainer} onPress={this.amountScrollToBack}>
-                    <Icon name="chevron-left" size={30} color="white" />
+                  <TouchableOpacity
+                    style={styles.arrowButtonContainer}
+                    onPress={this.amountScrollToBack}>
+                    {/* <Icon name="chevron-left" size={30} color="white" /> */}
+                    <SvgImage
+                      icon={'leftarrow'}
+                      height={30}
+                      width={20}
+                      color={'#ffffff'}
+                    />
                   </TouchableOpacity>
+
                   <FlatList
-                    ref={ref => this.amountFlatList = ref}
-                    style={{ margin: 5, marginTop: 0 }}
-                    extraData={this.state.selectedItem}
+                    ref={ref => (this.amountFlatList = ref)}
+                    style={{margin: 5, marginTop: 0}}
+                    extraData={this.state}
                     horizontal={true}
                     scrollEnabled={true}
                     showsHorizontalScrollIndicator={false}
                     data={this.state.dollarAmountArray}
-                    keyExtractor={item => String(item.id)}
-                    renderItem={({ item }) => (
+                    keyExtractor={item => String(item)}
+                    renderItem={({item}) => (
                       <TouchableOpacity
-                        onPress={() => this.onPressHandler(item.id, item.value)}
-                      >
+                        onPress={() => {
+                          this.onPressHandler(item);
+                        }}>
                         <Card
                           // style={{ margin: -10 , padding: -10 }}
                           containerStyle={
-                            this.state.selectedItem === item.id
+                            this.state.selectedItem === item
                               ? {
                                   borderRadius: 5,
                                   elevation: 0,
                                   margin: 5,
                                   padding: 10,
-                                  alignSelf: "center",
+                                  alignSelf: 'center',
                                   flex: 1,
-                                  justifyContent: "center",
+                                  justifyContent: 'center',
                                   borderWidth: 0, //no effect
-                                  shadowColor: "transparent", //no effect
-                                  borderBottomColor: "transparent",
-                                  borderTopColor: "transparent",
-                                  backgroundColor: "#134697"
+                                  shadowColor: 'transparent', //no effect
+                                  borderBottomColor: 'transparent',
+                                  borderTopColor: 'transparent',
+                                  backgroundColor: '#134697',
                                 }
                               : {
                                   borderRadius: 5,
                                   elevation: 0,
-                                  backgroundColor: "transparent",
+                                  backgroundColor: 'transparent',
                                   margin: 5,
                                   padding: 10,
-                                  alignSelf: "center",
+                                  alignSelf: 'center',
                                   flex: 1,
-                                  justifyContent: "center",
+                                  justifyContent: 'center',
                                   borderWidth: 0, //no effect
-                                  shadowColor: "transparent", //no effect
-                                  borderBottomColor: "transparent",
-                                  borderTopColor: "transparent"
+                                  shadowColor: 'transparent', //no effect
+                                  borderBottomColor: 'transparent',
+                                  borderTopColor: 'transparent',
                                 }
-                          }
-                        >
-                          <Text
-                            style={styles.dollarTextNew}
-                          >
-                            {item.data}
-                          </Text>
+                          }>
+                          {/* <Text style={styles.dollarTextNew}>{item.data}</Text> */}
+                          <Text style={styles.dollarTextNew}>$ {item}</Text>
                         </Card>
                       </TouchableOpacity>
                     )}
                   />
 
-                <TouchableOpacity style={styles.arrowButtonContainer} onPress={this.amountScrollToNext}>
-                    <Icon name="chevron-right" size={30} color="white" />
-                </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.arrowButtonContainer}
+                    onPress={this.amountScrollToNext}>
+                    {/* <Icon name="chevron-right" size={30} color="white" /> */}
+                    <SvgImage
+                      icon={'rightarrow'}
+                      height={30}
+                      width={20}
+                      color={'#ffffff'}
+                    />
+                  </TouchableOpacity>
                 </View>
+
                 <TextInput
-                  style={styles.customAmountText}
+                  // style={styles.customAmountText}
+                  style={
+                    this.state.amountFocused === true
+                      ? styles.customAmountTextWhenFocus
+                      : styles.customAmountText
+                  }
                   keyboardType="numeric"
                   ref={input => {
                     this.textInput = input;
                   }}
                   onChangeText={text => this.handleTextChange(text)}
-                  value={this.state.dollarAmountToPay}
-                  onFocus={() => {
-                    {
-                      console.log("onFocus");
-                    }
-                    this.setState({ selectedItem: "", dollarAmountToPay: "" });
-                  }}
-                  placeholder="Custom Amount"
+                  value={this.state.dollarAmountToPay + ''}
+                  // extraData={this.state}
+                  // onFocus={() => {
+                  //   {
+                  //     console.log('onFocus this.state.selectedItem'+this.state.selectedItem);
+                  //     console.log('onFocus this.state.dollarAmountToPay'+this.state.dollarAmountToPay);
+                  //   }
+                  //   this.setState({
+                  //     //selectedItem: '',
+                  //    // dollarAmountToPay: '',
+                  //     // amountFocused: true,
+                  //   });
+                  // }}
+                  // onBlur={() => {
+                  //   {
+                  //     console.log('onBlur');
+                  //   }
+                  //   this.setState({
+                  //     //  selectedItem: '',
+                  //     // dollarAmountToPay: '',
+                  //     // amountFocused: false,
+                  //   });
+                  // }}
+                  placeholder="Amount"
+                  // label="Email"
                   placeholderTextColor="#768BA7"
-                ></TextInput>
+                />
               </View>
             </View>
             <TouchableOpacity
+              disabled={this.state.disableDonateButton}
               style={styles.payNowTextTouchableOpacity}
               onPress={() => {
-                this.gotoPaypalPaymentGateway();
-              }}
-            >
+                if (this.state.dollarAmountToPay != undefined) {
+                  console.log('just before gotoPaypalPaymentGateway');
+                  this.gotoPaypalPaymentGateway();
+                }
+              }}>
               <Text style={styles.payNowText}>Donate With PayPal</Text>
             </TouchableOpacity>
           </View>
@@ -275,48 +350,47 @@ export class Donation extends Component<Props, State> {
     );
   }
 
-  renderUserDataInputArea=()=> {
-    return(
+  renderUserDataInputArea = () => {
+    return (
       <View style={{marginTop: 20}}>
         <TextInput
-        style={styles.userDataTextInput}
-
-        onChangeText={text => this.setState({name: text, nameError:''})}
-        value={this.state.name}
-        placeholder="Name"
-        placeholderTextColor="#768BA7"
-      ></TextInput>
-      {this.renderTextErrorView(this.state.nameError, this.state.nameError)}
-      <TextInput
-        style={styles.userDataTextInput}
-        keyboardType= "email-address"
-        onChangeText={text => this.setState({email:text, emailError: ''})}
-        value={this.state.email}
-        placeholder="Name"
-        placeholderTextColor="#768BA7"
-      ></TextInput>
-      {this.renderTextErrorView(this.state.nameError, this.state.emailError)}
+          style={styles.userDataTextInput}
+          onChangeText={text => this.setState({name: text, nameError: ''})}
+          value={this.state.name}
+          placeholder="Name"
+          placeholderTextColor="#768BA7"></TextInput>
+        {this.renderTextErrorView(this.state.nameError, this.state.nameError)}
+        <TextInput
+          style={styles.userDataTextInputEmail}
+          keyboardType="email-address"
+          onChangeText={text => this.setState({email: text, emailError: ''})}
+          value={this.state.email}
+          placeholder="Email"
+          placeholderTextColor="#768BA7"></TextInput>
+        {this.renderTextErrorView(this.state.nameError, this.state.emailError)}
       </View>
-    )
-  }
+    );
+  };
 
   renderTextErrorView = (value, text) => {
     if (true) {
-       return <Text style={styles.errorText}>{text}</Text>
-    }else{
-      return null
+      return <Text style={styles.errorText}>{text}</Text>;
+    } else {
+      return null;
     }
-  }
-  
+  };
 
   gotoPaypalPaymentGateway = () => {
-    const {name , email} = this.state;
+    const {name, email} = this.state;
     let validationResponse = validateFields(email, name);
-    if(validationResponse.validationStatus){
+    console.log('inside gotoPaypalPaymentGateway');
+    if (validationResponse.validationStatus) {
+      console.log('inside gotoPaypalPaymentGateway  1');
       if (
         this.state.dollarAmountToPay != undefined &&
-        this.state.dollarAmountToPay.trim() != ""
+        this.state.dollarAmountToPay != ''
       ) {
+        console.log('inside gotoPaypalPaymentGateway  2');
         var totalPrice = parseInt(this.state.dollarAmountToPay);
         RNPaypal.paymentRequest({
           // clientId: 'ASo31Vu1lEVVVuYuOe61ynzhqDFRtP2znoSufGOTzjrPvcN11Y9QrI-olbLjB68TpAY5lq2t8b87Youg',
@@ -324,59 +398,64 @@ export class Donation extends Component<Props, State> {
           environment: RNPaypal.ENVIRONMENT.NO_NETWORK,
           intent: RNPaypal.INTENT.SALE,
           price: totalPrice,
-          currency: "USD",
+          currency: 'USD',
           description: `Android testing`,
-          acceptCreditCards: true
+          acceptCreditCards: true,
         })
           .then(response => {
-            console.log(response);
-            console.log(response.response.id);
             this.sendPaymentInfo(
               this.state.email,
               this.state.name,
               this.state.dollarAmountToPay,
-              response.response.id
+              response.response.id,
             );
             this.setState({
-              dollarAmountToPay: ""
+              dollarAmountToPay: '',
             });
             this.successview.show(true);
           })
           .catch(err => {
-            console.log(err.message);
-            const substring = "User cancelled";
+            const substring = 'User cancelled';
             if (err.message.includes(substring)) {
             } else {
-              this.failureview.show(true, "1234567890");
+              this.failureview.show(true, '1234567890');
             }
           });
       } else {
-        Alert.alert("Please select or input an amount.");
+        Alert.alert(
+          'Please select an amount.',
+          '',
+          [{text: '🆗', onPress: () => console.log('OK Pressed')}],
+          {cancelable: false},
+        );
+        // Alert.alert('Please select an amount.');
       }
-    }else {
-      this.setState({emailError: validationResponse.emailError, nameError: validationResponse.nameError })
+    } else {
+      this.setState({
+        emailError: validationResponse.emailError,
+        nameError: validationResponse.nameError,
+      });
     }
-    
   };
 
   sendPaymentInfo = (email, name, amount, transaction_id) => {
-    const { navigation } = this.props;
+    const {navigation} = this.props;
     var data = {
       email: email,
       name: name,
       amount: amount,
       transaction_id: transaction_id,
       created_user_id: BuildConfig.token_id,
-      events_id: navigation.getParam("events_id")
+      events_id: navigation.getParam('events_id'),
     };
 
     return fetch(APIEndpoints.INSERT_PAYMENT, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     }).then(response => {
       console.log(response);
     });
@@ -396,10 +475,9 @@ export class Donation extends Component<Props, State> {
             isFocused2: false,
             isFocused3: false,
             isFocused4: false,
-            isFocused5: false
+            isFocused5: false,
           });
-        }}
-      >
+        }}>
         {item.data}
       </Text>
       <Text
@@ -414,10 +492,9 @@ export class Donation extends Component<Props, State> {
             isFocused2: true,
             isFocused3: false,
             isFocused4: false,
-            isFocused5: false
+            isFocused5: false,
           });
-        }}
-      >
+        }}>
         {item.data}
       </Text>
       <Text
@@ -432,10 +509,9 @@ export class Donation extends Component<Props, State> {
             isFocused2: false,
             isFocused3: true,
             isFocused4: false,
-            isFocused5: false
+            isFocused5: false,
           });
-        }}
-      >
+        }}>
         {item.data}
       </Text>
       <Text
@@ -450,10 +526,9 @@ export class Donation extends Component<Props, State> {
             isFocused2: false,
             isFocused3: false,
             isFocused4: true,
-            isFocused5: false
+            isFocused5: false,
           });
-        }}
-      >
+        }}>
         {item.data}
       </Text>
       <Text
@@ -468,12 +543,11 @@ export class Donation extends Component<Props, State> {
             isFocused2: false,
             isFocused3: false,
             isFocused4: false,
-            isFocused5: true
+            isFocused5: true,
           });
-        }}
-      >
+        }}>
         {item.data}
-        {console.warn("hhjjjjjj")}
+        {console.warn('hhjjjjjj')}
       </Text>
     </TouchableOpacity>
   );
@@ -482,11 +556,11 @@ export class Donation extends Component<Props, State> {
     this.setState(
       {
         isRefreshing: true,
-        visbltyCntntLdr: true
+        visbltyCntntLdr: true,
       },
       () => {
         this.apiNotifications();
-      }
+      },
     );
   };
 }

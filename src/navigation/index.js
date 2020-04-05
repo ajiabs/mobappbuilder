@@ -1,9 +1,13 @@
 import BottomTabNavigation from './Bottom-navigation';
+import {Platform} from 'react-native';
+import {createStackNavigator} from 'react-navigation-stack';
+import ReactNavigation from 'react-navigation';
+
 import {
-     Platform
-   } from 'react-native';
-// import SplashScreen from 'react-native-splash-screen';
-// Platform.OS === 'ios' ? SplashScreen.hide() : null;
+  createAppContainer,
+  StackViewTransitionConfigs,
+} from 'react-navigation';
+
 export const MenuNavigation = {
-     bottomNavigation:BottomTabNavigation
-}
+  bottomNavigation: BottomTabNavigation,
+};

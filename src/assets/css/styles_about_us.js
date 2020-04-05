@@ -8,7 +8,14 @@ export default StyleSheet.create({
     fontSize: 12,
     textAlign: "center"
   },
-
+  active_rightside_text_red: {
+    flex: 1,
+   // width: '70%',
+   // marginRight: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 25,
+  },
   scrollviewStyle: {
     marginBottom: 120
   },
@@ -18,7 +25,7 @@ export default StyleSheet.create({
     backgroundColor: BuildConfig.menu_text_color
   },
   about_us_image: {
-    width: "90%",
+    width: "100%",
     marginTop: -120,
     height: 240,
     alignSelf: "center"
@@ -41,9 +48,14 @@ export default StyleSheet.create({
 
   content: {
     color: "#414146",
-    width: "85%",
+   // width: "85%",
     alignSelf: "center",
     marginTop: 15,
+    marginLeft: 25,
+    marginRight: 25, 
+    'letterSpacing': 1,
+    lineHeight: 20,
+    textAlign: 'justify',
     marginBottom:50,
     fontFamily: Font.Regular,
     fontSize: FontSize.Normal

@@ -1,50 +1,47 @@
-import React from "react";
-import { Image, Text, StyleSheet } from "react-native";
-import { createBottomTabNavigator } from "react-navigation-tabs";
-import { createStackNavigator } from "react-navigation-stack";
-import Home from "../screens/Home";
-import AboutUs from "../screens/About-us";
-import ContactUs from "../screens/ContactUs/Contact-us";
-import Events from "../screens/Events";
-import EventDetails from "../screens/Event-details";
-import EventPayment from "../screens/Event-payment";
-import Settings from "../screens/Settings";
-import More from "../screens/More/More";
-import { AssetsImages } from "../assets/images";
-import { BuildConfig } from "../config";
-import { Styles } from "../assets/css/styles";
-import EventListing from "../screens/EventListing/EventListing";
-import EventListingDetail from "../screens/EventListingDetails/EventLisingDetail";
-import { NewsListing } from "../screens/NewsListing";
-import { Donation } from "../screens/Donation";
-import SvgImage from "../assets/svgIcons";
+import React from 'react';
+import {Image, Text} from 'react-native';
+import {createStackNavigator, TransitionPresets} from 'react-navigation-stack';
+import {createBottomTabNavigator} from 'react-navigation-tabs';
+import {Styles} from '../assets/css/styles';
+import {AssetsImages} from '../assets/images';
+import SvgImage from '../assets/svgIcons';
+import {BuildConfig} from '../config';
+import AboutUs from '../screens/About-us';
+import ContactUs from '../screens/ContactUs/Contact-us';
+import {Donation} from '../screens/Donation';
+import EventDetails from '../screens/Event-details';
+import EventPayment from '../screens/Event-payment';
+import EventListing from '../screens/EventListing/EventListing';
+import EventListingDetail from '../screens/EventListingDetails/EventLisingDetail';
+import More from '../screens/More/More';
+import {NewsListing} from '../screens/NewsListing';
 
 const MoreStack = createStackNavigator(
   {
     More: {
-      screen: More
+      screen: More,
     },
     AboutUs: {
-      screen: AboutUs
+      screen: AboutUs,
     },
     ContactUs: {
-      screen: ContactUs
-    }
+      screen: ContactUs,
+    },
   },
   {
-    initialRouteName: "More",
-    headerMode: "none",
+    initialRouteName: 'More',
+    headerMode: 'none',
     navigationOptions: {
-      headerVisible: false
-    }
-  }
+      headerVisible: false,
+    },
+  },
 );
 
 const NewsFeedStack = createStackNavigator(
   {
     ListNews: {
-      screen: NewsListing //NewsListing
-    }
+      screen: NewsListing, //NewsListing
+    },
     // AboutUs: {
     //   screen: AboutUs
     // },
@@ -53,113 +50,139 @@ const NewsFeedStack = createStackNavigator(
     // }
   },
   {
-    initialRouteName: "ListNews",
-    headerMode: "none",
+    initialRouteName: 'ListNews',
+    headerMode: 'none',
     navigationOptions: {
-      headerVisible: false
-    }
-  }
+      headerVisible: false,
+    },
+  },
 );
 
 const HomeStack = createStackNavigator(
   {
-    Home: {
-      screen: EventListing
+    Events: {
+      screen: EventListing,
     },
     EventListingDetail: {
-      screen: EventListingDetail
+      screen: EventListingDetail,
     },
     EventDetails: {
-      screen: EventDetails
+      screen: EventDetails,
     },
     EventPayment: {
-      screen: EventPayment
+      screen: EventPayment,
     },
     Donation: {
-      screen: Donation
-    }
+      screen: Donation,
+    },
   },
+
   {
-    initialRouteName: "Home",
-    headerMode: "none",
+    initialRouteName: 'Events',
+    defaultNavigationOptions: {
+      ...TransitionPresets.SlideFromRightIOS,
+      cardOverlayEnabled: true,
+      gestureEnabled: false,
+    },
+    headerMode: 'none',
     navigationOptions: {
-      headerVisible: false
-    }
-  }
+      headerVisible: false,
+    },
+  },
 );
 
-HomeStack.navigationOptions = ({ navigation }) => {
+HomeStack.navigationOptions = ({navigation}) => {
   let tabBarVisible = true;
   if (navigation.state.index > 2) {
     tabBarVisible = false;
   }
   return {
-    tabBarVisible
+    tabBarVisible,
   };
 };
 
 export default BottomTabNavigation = createBottomTabNavigator(
   {
-    Home: {
-      screen: HomeStack
+    Events: {
+      screen: HomeStack,
     },
     // NewsFeed: {
     //   screen: NewsFeedStack
     // },
     More: {
-      screen: MoreStack
-    }
+      screen: MoreStack,
+    },
   },
+
   {
-    initialRouteName: "Home",
-    defaultNavigationOptions: ({ navigation }) => ({
-      tabBarLabel: ({ focused, horizontal, tintColor }) => {
-        const { routeName } = navigation.state;
+    initialRouteName: 'Events',
+    defaultNavigationOptions: ({navigation}) => ({
+      tabBarOptions: {
+        style:{height:60}
+    }, 
+      tabBarLabel: ({focused, horizontal, tintColor}) => {
+        const {routeName} = navigation.state;
         let label;
 
         return (
           <Text
-            style={focused ? [Styles.activeTabText] : Styles.inactiveTabText}
-          >
+            style={focused ? [Styles.activeTabText] : Styles.inactiveTabText}>
             {routeName}
           </Text>
         );
       },
-      tabBarIcon: ({ focused, horizontal, tintColor }) => {
-        const { routeName } = navigation.state;
+      tabBarIcon: ({focused, horizontal, tintColor}) => {
+        const {routeName} = navigation.state;
         //let IconComponent = Ionicons;
         let iconName;
         let badgeCount = 2;
-        if (routeName === "Home") {
-          iconName = AssetsImages.home;
-        } else if (routeName === "Settings") {
+        if (routeName === 'Events') {
+         //iconName = AssetsImages.home;
+         return (
+          <SvgImage
+            icon={'home'}
+            height={40}
+            width={40}
+            color={tintColor}
+          />
+        );
+        } else if (routeName === 'Settings') {
           iconName = AssetsImages.settings;
-        } else if (routeName === "NewsFeed") {
+        } else if (routeName === 'NewsFeed') {
           // iconName = AssetsImages.newsfeed;
           //  iconName = <SvgImage icon={'newsfeedIcon'} height={20} width={20} color={tintColor} />
           return (
             <SvgImage
-              icon={"newsfeedIcon"}
-              height={20}
-              width={20}
+              icon={'newsfeedIcon'}
+              height={40}
+              width={40}
               color={tintColor}
             />
           );
-        } else if (routeName === "More") {
-          iconName = AssetsImages.more;
+        } else if (routeName === 'More') {
+          //iconName = AssetsImages.more;
+          // <SvgImage icon={'more'} height={20} width={20} color={tintColor} />
+          return (
+            <SvgImage
+              icon={'more'}
+              height={40}
+              width={40}
+              color={tintColor}
+            />
+          );
         }
 
         return (
           <Image
-            style={{ width: 30, height: 25, tintColor: tintColor }}
+            style={{width: 30, height: 25, tintColor: tintColor}}
             source={iconName}
           />
         );
-      }
+      },
     }),
     tabBarOptions: {
       activeTintColor: BuildConfig.menu_icon_color,
-      inactiveTintColor: "gray"
-    }
-  }
+      inactiveTintColor: 'gray',
+    },
+  },
 );

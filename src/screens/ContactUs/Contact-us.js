@@ -32,6 +32,7 @@ export default class ContactUs extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
+        console.log("zzzzzzzz" + JSON.stringify(responseJson));
         this.setState({
           isLoading: false,
           dataSource: responseJson,
@@ -89,6 +90,10 @@ export default class ContactUs extends React.Component {
             <Text style={styles.title}>Contact Us</Text>
           </View>
         </View> 
+
+
+
+
         <View style={styles.bodyContainer}>
             {this.renderContent()}
             {(this.state.dataSource.twitter_url || this.state.dataSource.facebook_url ) ? this.renderConnectWith(): null}

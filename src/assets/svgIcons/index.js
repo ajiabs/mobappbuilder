@@ -9,6 +9,10 @@
 import * as React from 'react';
 import {
     ICON_BACK,
+    ICON_MORE,
+    ICON_LEFT_ARROW,
+    ICON_RIGHT_ARROW,
+    ICON_HOME,
     ICON_MARKER,
     ICON_NEWS_FEED,
     ICON_EMPTY,
@@ -18,6 +22,10 @@ import {SvgXml} from 'react-native-svg';
 const IMAGES = {
   //Bottom Nav
   back: ICON_BACK,
+  more: ICON_MORE,
+  leftarrow: ICON_LEFT_ARROW,
+  rightarrow: ICON_RIGHT_ARROW,
+  home: ICON_HOME,
   marker: ICON_MARKER,
   newsfeedIcon: ICON_NEWS_FEED,
   listEmpty: ICON_EMPTY,
