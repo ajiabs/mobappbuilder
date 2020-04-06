@@ -383,19 +383,21 @@ export class Donation extends Component<Props, State> {
   gotoPaypalPaymentGateway = () => {
     const {name, email} = this.state;
     let validationResponse = validateFields(email, name);
-    console.log('inside gotoPaypalPaymentGateway');
     if (validationResponse.validationStatus) {
-      console.log('inside gotoPaypalPaymentGateway  1');
       if (
         this.state.dollarAmountToPay != undefined &&
         this.state.dollarAmountToPay != ''
       ) {
-        console.log('inside gotoPaypalPaymentGateway  2');
         var totalPrice = parseInt(this.state.dollarAmountToPay);
         RNPaypal.paymentRequest({
           // clientId: 'ASo31Vu1lEVVVuYuOe61ynzhqDFRtP2znoSufGOTzjrPvcN11Y9QrI-olbLjB68TpAY5lq2t8b87Youg',
+          // clientId:
+          //   'AZbkGOMKAmLQniLO3X47HFgYruJFrux5w-6WJotAvdmFLIiy__Xsd8js1zptHCTGfNX9rboMxHMPD7pu',
+          // clientId:
+          //   'ASgUeT-SyUMfJMrwS5Sjij_6LKUOCuMTWZcwhU7Ixb5YmW-1aK3oZMH-URq9EanMXu_R71dbvvaVMQ3T',
           clientId: this.state.paypal_client_id,
-          environment: RNPaypal.ENVIRONMENT.NO_NETWORK,
+          // environment: RNPaypal.ENVIRONMENT.SANDBOX,
+          environment: RNPaypal.ENVIRONMENT.PRODUCTION,
           intent: RNPaypal.INTENT.SALE,
           price: totalPrice,
           currency: 'USD',
@@ -411,6 +413,7 @@ export class Donation extends Component<Props, State> {
             );
             this.setState({
               dollarAmountToPay: '',
+              selectedItem: '',
             });
             this.successview.show(true);
           })
