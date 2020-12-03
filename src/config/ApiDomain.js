@@ -1,5 +1,5 @@
 const Domain = {
-  Live: 'https://mobapps.com/',
+  Live: 'https://www.mobapps.com/',
   Demo: 'https://mobapp.iscriptsdemo.com/',
   jain: 'http://192.168.0.143:4000/'
 };
